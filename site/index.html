@@ -469,7 +469,6 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
 .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; flex: none; }
 .sw[data-co="BFT"] { background: var(--co-bft); }
 .sw[data-co="EDV"] { background: var(--co-edv); }
-.legend { display: flex; gap: 14px; font-size: 12px; color: var(--ink-2); }
 
 /* フィルター */
 .vf { margin-bottom: 14px; display: flex; flex-direction: column; gap: 14px; }
@@ -499,40 +498,44 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
 .loc-chip .n { font-size: 12px; color: var(--muted); margin-left: 6px; font-variant-numeric: tabular-nums; font-weight: 400; }
 .loc-chip.all { font-weight: 600; }
 
-.kpi-main .kpi-value { color: var(--accent); }
 .kpi-note .sw { width: 8px; height: 8px; margin-right: 4px; vertical-align: 0; }
 .kpi-note .co-split { margin-right: 12px; white-space: nowrap; }
-
-.vc { margin-bottom: 14px; }
-.vgrid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-
-/* 縦棒 (日別・サイズ別)。会社ごとに積み上げ、間に 2px のすき間 */
-.vbars { position: relative; height: 220px; padding: 0 0 22px 34px; }
-.vbars.short { height: 200px; }
-.vbars .grid { position: absolute; left: 34px; right: 0; border-top: 1px solid var(--line); }
-.vbars .grid span { position: absolute; left: -34px; top: -8px; width: 28px; text-align: right; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.vbars .grid.base { border-top-color: var(--line-strong); }
-.vbars .cols { position: relative; display: flex; align-items: flex-end; height: 100%; gap: 2px; }
-.vbars .col { flex: 1 1 0; min-width: 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 2px; position: relative; cursor: default; }
-.vbars .col:hover { background: var(--surface-2); border-radius: 4px 4px 0 0; }
-.vbars .seg-b { width: 72%; max-width: 30px; }
-.vbars .seg-b[data-co="BFT"] { background: var(--co-bft); }
-.vbars .seg-b[data-co="EDV"] { background: var(--co-edv); }
-.vbars .seg-b.cap { border-radius: 4px 4px 0 0; }
-.vbars .xl { position: absolute; bottom: -20px; font-size: 11px; color: var(--muted); white-space: nowrap; }
-.vbars .vtot { font-size: 11px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
-
-/* 横棒 (会社別に積み上げ) */
-.bar-row.static { cursor: default; }
-.bar-row.static:hover { background: var(--surface-2); }
-.bar-track.stack { display: flex; gap: 2px; }
-.bar-track.stack .bar-fill { border-radius: 0; transition: width .35s ease; }
-.bar-track.stack .bar-fill:last-child { border-radius: 0 4px 4px 0; }
-.bar-fill[data-co="BFT"] { background: var(--co-bft); }
-.bar-fill[data-co="EDV"] { background: var(--co-edv); }
-.bar-row:hover .bar-fill[data-co], .bar-row.active .bar-fill[data-co] { filter: brightness(1.08); }
-.bar-label .co { font-size: 11px; color: var(--muted); font-weight: 600; margin-right: 4px; }
 .empty-note { color: var(--muted); font-size: 13px; padding: 20px 0; text-align: center; }
+
+/* モデル別の販売数量 (主役) */
+.mcard { margin-bottom: 14px; }
+.mcard-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 24px; flex-wrap: wrap; margin-bottom: 14px; }
+.mcard-head h2 { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+.mtotal { text-align: right; }
+.mtotal-label { font-size: 12px; color: var(--ink-2); }
+.mtotal-value { font-size: 40px; font-weight: 700; line-height: 1.1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.mtotal .kpi-note .co-split:last-child { margin-right: 0; }
+.mlist { display: flex; flex-direction: column; }
+.mrow {
+  display: grid; align-items: center; gap: 4px 12px; width: 100%; text-align: left;
+  grid-template-columns: 24px minmax(150px, 240px) minmax(0, 1fr) repeat(var(--co-cols), 52px) 64px 52px;
+  padding: 8px 8px; border: 0; border-bottom: 1px solid var(--line); background: none; font-size: 14px; cursor: pointer; border-radius: 0;
+}
+.mlist.cols-2 { --co-cols: 2; }
+.mlist.cols-0 { --co-cols: 0; }
+.mlist.cols-0 .mrow { grid-template-columns: 24px minmax(150px, 240px) minmax(0, 1fr) 64px 52px; }
+.mrow:hover { background: var(--surface-2); }
+.mrow:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.mrow.active { background: var(--accent-soft); }
+.mrow.mhead { cursor: default; font-size: 12px; color: var(--muted); padding-top: 0; border-bottom-color: var(--line-strong); }
+.mrow.mhead:hover { background: none; }
+.mrank { color: var(--muted); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+.mname { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.mbar { display: flex; gap: 2px; height: 16px; min-width: 0; }
+.mfill { display: block; height: 100%; min-width: 3px; }
+.mfill:last-child { border-radius: 0 4px 4px 0; }
+.mfill[data-co="BFT"] { background: var(--co-bft); }
+.mfill[data-co="EDV"] { background: var(--co-edv); }
+.mnum { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mnum .sw { width: 8px; height: 8px; margin-right: 4px; vertical-align: 0; }
+.co-n { color: var(--ink-2); }
+.mqty { font-weight: 700; font-size: 16px; }
+.mshare { color: var(--muted); font-size: 12px; }
 
 /* 明細表 */
 .vtable-wrap { overflow: auto; max-height: 640px; border: 1px solid var(--line); border-radius: 10px; }
@@ -547,20 +550,23 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
 .vtable tfoot td { font-weight: 700; background: var(--surface-2); border-bottom: 0; position: sticky; bottom: 0; }
 .vtable tbody tr:hover td { background: var(--surface-2); }
 
-@media (max-width: 960px) {
-  .vgrid { grid-template-columns: minmax(0, 1fr); }
-}
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .vf-row { gap: 10px; }
   .vf-group { width: 100%; }
   .vf-row label.vf-group { width: calc(50% - 5px); }
   .vf-input { min-width: 0; width: 100%; }
   .seg { width: 100%; }
   .seg button { flex: 1 1 auto; justify-content: center; padding: 0 8px; }
-  .vbars { padding-left: 28px; }
-  .vbars .grid { left: 28px; }
-  .vbars .grid span { left: -28px; width: 24px; }
-  .vbars .vtot { display: none; }
+  .mtotal { text-align: left; }
+  .mtotal-value { font-size: 32px; }
+  /* スマホ: 棒はモデル名の下に全幅で表示し、割合列は省く */
+  .mrow, .mlist.cols-0 .mrow { grid-template-columns: 20px minmax(0, 1fr) repeat(var(--co-cols), 40px) 48px; }
+  .mbar { grid-column: 2 / -1; grid-row: 2; height: 10px; }
+  .mrow.mhead .mbar, .mrow.mhead > span:nth-child(3) { display: none; }
+  .mshare { display: none; }
+  .mqty { font-size: 15px; }
+  .mname { font-size: 13px; }
+  .mrow { gap: 4px 8px; padding: 8px 4px; }
 }
 
 </style>
@@ -622,74 +628,24 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
       </div>
     </section>
 
-    <section class="kpis">
-      <div class="kpi kpi-main">
-        <p class="kpi-label" data-i18n="kpi.qty"></p>
-        <p class="kpi-value" id="kQty">–</p>
-        <p class="kpi-note" id="kQtyNote"></p>
-      </div>
-      <div class="kpi">
-        <p class="kpi-label" data-i18n="kpi.amount"></p>
-        <p class="kpi-value" id="kAmt">–</p>
-        <p class="kpi-note" id="kAmtNote"></p>
-      </div>
-      <div class="kpi">
-        <p class="kpi-label" data-i18n="kpi.orders"></p>
-        <p class="kpi-value" id="kOrders">–</p>
-        <p class="kpi-note" id="kOrdersNote"></p>
-      </div>
-      <div class="kpi">
-        <p class="kpi-label" data-i18n="kpi.avg"></p>
-        <p class="kpi-value" id="kAvg">–</p>
-        <p class="kpi-note" data-i18n="kpi.avgNote"></p>
-      </div>
-    </section>
-
-    <section class="card vc">
-      <div class="card-head">
-        <h2 data-i18n="c.daily"></h2>
-        <div class="legend" aria-hidden="true">
-          <span><i class="sw" data-co="BFT"></i>BFT</span><span><i class="sw" data-co="EDV"></i>EDV</span>
+    <section class="card mcard">
+      <div class="mcard-head">
+        <div>
+          <h2 data-i18n="m.title"></h2>
+          <p class="hint" data-i18n="m.hint"></p>
+        </div>
+        <div class="mtotal">
+          <p class="mtotal-label" data-i18n="kpi.qty"></p>
+          <p class="mtotal-value" id="kQty">–</p>
+          <p class="kpi-note" id="kQtyNote"></p>
         </div>
       </div>
-      <div id="dailyChart" class="vbars"></div>
-    </section>
-
-    <section class="charts vgrid">
-      <div class="card">
-        <div class="card-head">
-          <h2 data-i18n="c.loc"></h2>
-          <p class="hint" data-i18n="c.locHint"></p>
-        </div>
-        <div id="locChart" class="bars"></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h2 data-i18n="c.model"></h2>
-          <p class="hint" data-i18n="c.modelHint"></p>
-        </div>
-        <div id="modelChart" class="bars compact"></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h2 data-i18n="c.size"></h2>
-          <div class="legend" aria-hidden="true">
-            <span><i class="sw" data-co="BFT"></i>BFT</span><span><i class="sw" data-co="EDV"></i>EDV</span>
-          </div>
-        </div>
-        <div id="sizeChart" class="vbars short"></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h2 data-i18n="c.color"></h2>
-        </div>
-        <div id="colorChart" class="bars compact"></div>
-      </div>
+      <div id="modelList" class="mlist"></div>
     </section>
 
     <section class="card">
       <div class="card-head">
-        <h2><span data-i18n="t.title"></span> <span class="count" id="tCount"></span></h2>
+        <h2><span data-i18n="t.title"></span><span id="tTitleModel"></span> <span class="count" id="tCount"></span></h2>
         <div class="head-actions">
           <button id="copyTable" class="ghost small" type="button" data-i18n="copy"></button>
         </div>
@@ -705,7 +661,6 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
 
     <footer class="foot" id="foot"></footer>
   </div>
-  <div id="tip" class="tip" role="tooltip" hidden></div>
 <script>window.VIVO_DATA = {"generated":"2026-10-01T07:04:11","sources":{"BFT":"vivo_BFT.xlsx","EDV":"vivo_EDV.xlsx"},"from":"2026-08-10","to":"2026-09-30","locations":[{"id":"BFT:Event 1","company":"BFT","type":"event","wh":"Event 1","name":"Event 1"},{"id":"EDV:Kvillage","company":"EDV","type":"store","wh":"Kvillage","name":"K Village"},{"id":"EDV:Event 1","company":"EDV","type":"event","wh":"Event 1","name":"Event 1"},{"id":"EDV:","company":"EDV","type":"online","wh":"","name":""}],"fields":["date","loc","order","model","color","size","qty","amount","status"],"lines":[["2026-08-10","EDV:Kvillage","R# RC-125-202608064","Primus Lite Knit Natural","Eclipse","M44",1,5491.0,""],["2026-08-13","EDV:Kvillage","R# RC-125-202608076","Primus Lite IV","Mineral","M43",1,4947.0,""],["2026-08-17","EDV:","TX202608089","Primus Lite IV","Mineral","W36",1,5100.0,"pending"],["2026-08-19","EDV:Kvillage","R# RC-125-202608106","Primus Lite IV","Mineral","W37",1,4947.0,""],["2026-08-20","EDV:Kvillage","R# RC-125-202608118","Primus Lite Knit Natural","Eclipse","M45",1,5606.6,""],["2026-08-21","EDV:","TX202608103","Primus Lite IV","Mineral","W39",1,5100.0,"pending"],["2026-08-21","EDV:Kvillage","R# RC-125-202608122","Primus Lite IV","Obsidian","M44",1,4947.0,""],["2026-08-22","EDV:Kvillage","R# RC-125-202608129","Gobi III Sneaker Leather","Limestone","W39",1,5690.5,""],["2026-08-22","EDV:Kvillage","R# RC-125-202608129","Primus Lite IV","Mineral","W39",1,4845.0,""],["2026-08-22","EDV:Kvillage","R# RC-125-202608134","Primus Lite IV","Obsidian","W36",1,4845.0,""],["2026-08-23","EDV:Kvillage","R# RC-125-202608146","Primus Lite IV","Obsidian","M42",1,4947.0,""],["2026-08-24","EDV:Kvillage","R# RC-125-202608151","Primus Lite IV","Mineral","W37",1,4845.0,""],["2026-08-28","EDV:Kvillage","R# RC-125-202608180","Primus Lite IV","Obsidian","M41",1,4845.0,""],["2026-08-29","EDV:Kvillage","R# RC-125-202608189","Primus Lite IV","Storm Cloud","M42",1,4947.0,""],["2026-08-31","EDV:Kvillage","R# RC-125-202608200","Primus Lite IV","Obsidian","M43",1,4947.0,""],["2026-08-31","EDV:Kvillage","R# RC-125-202608203","Primus Lite IV","Mineral","W38",1,4947.0,""],["2026-08-31","EDV:Kvillage","R# RC-125-202608204","Primus Lite IV","Mineral","M42",1,4947.0,""],["2026-09-01","EDV:Kvillage","R# RC-125-202609007","Primus Lite IV","Mineral","M41",1,4947.0,""],["2026-09-02","EDV:Kvillage","R# RC-125-202609014","Primus Lite IV","Mineral","M41",1,4845.0,""],["2026-09-02","EDV:Kvillage","R# RC-125-202609014","Primus Lite IV","Obsidian","M41",1,4845.0,""],["2026-09-04","EDV:Kvillage","R# RC-125-202609022","Primus Lite IV","Mineral","M45",1,4947.0,""],["2026-09-05","EDV:Kvillage","R# RC-125-202609026","Ra IV","Obsidian","M42",1,5276.8,""],["2026-09-05","EDV:Kvillage","R# RC-125-202609027","Primus Trail FG 3.5","Obsidian","M41",1,6159.5,""],["2026-09-06","EDV:Kvillage","R# RC-125-202609036","Primus Lite IV","Obsidian","M42",1,4947.0,""],["2026-09-06","EDV:Kvillage","R# RC-125-202609037","Ra IV","Obsidian","M40",1,5276.8,""],["2026-09-06","EDV:Kvillage","R# RC-125-202609038","Primus Lite IV","Obsidian","W40",1,4947.0,""],["2026-09-06","EDV:Kvillage","R# RC-125-202609041","Primus Lite IV","Obsidian","W39",1,4947.0,""],["2026-09-07","EDV:Event 1","R# TX-145-202609004","Primus Trail FG 3.5","Obsidian","M41",1,5715.0,""],["2026-09-07","EDV:Event 1","R# TX-145-202609005","Primus Lite IV","Mineral","W39",1,4590.0,""],["2026-09-09","EDV:Event 1","R# TX-145-202609010","Geo Court IV","Bright White","W39",1,5508.0,""],["2026-09-09","EDV:Event 1","R# TX-145-202609010","Primus Lite IV","Obsidian","W39",1,4590.0,""],["2026-09-09","EDV:Event 1","R# TX-145-202609010","Primus Lite IV","Storm Cloud","W39",1,4590.0,""],["2026-09-09","EDV:Event 1","R# TX-145-202609011","Primus Lite Knit Natural","Eclipse","W37",1,5202.0,""],["2026-09-09","EDV:Event 1","R# TX-145-202609012","Primus Lite IV","Obsidian","W38",1,4590.0,""],["2026-09-09","EDV:Event 1","R# TX-145-202609012","Primus Lite IV","Storm Cloud","M44",1,4590.0,""],["2026-09-09","EDV:Event 1","R# TX-145-202609012","Primus Lite IV","Storm Cloud","W38",1,4590.0,""],["2026-09-09","EDV:Event 1","R# TX-145-202609013","Primus Lite IV","Mineral","M44",1,4590.0,""],["2026-09-10","EDV:","TIV-202609005","Primus Lite IV","Storm Cloud","M42",1,3060.0,"pending"],["2026-09-10","EDV:Event 1","R# TX-145-202609014","Primus Lite IV","Obsidian","M43",1,4590.0,""],["2026-09-10","EDV:Event 1","R# TX-145-202609019","Primus Lite IV","Mineral","W39",1,4590.0,""],["2026-09-10","EDV:Event 1","R# TX-145-202609022","Primus Lite IV","Mineral","W40",1,4590.0,""],["2026-09-10","EDV:Event 1","R# TX-145-202609023","Primus Lite IV","Mineral","W39",1,4590.0,""],["2026-09-11","EDV:Event 1","R# TX-145-202609024","Primus Lite IV","Mineral","M40",1,4590.0,""],["2026-09-11","EDV:Event 1","R# TX-145-202609025","Primus Lite IV","Mineral","W37",1,4590.0,""],["2026-09-12","EDV:Event 1","R# TX-145-202609029","Gobi III Sneaker Leather","Obsidian","W37",1,5391.0,""],["2026-09-12","EDV:Event 1","R# TX-145-202609030","Primus Lite IV","Mineral","M41",1,4590.0,""],["2026-09-12","EDV:Event 1","R# TX-145-202609031","Primus Lite Knit Natural","Eclipse","M43",1,5202.0,""],["2026-09-12","EDV:Event 1","R# TX-145-202609032","Primus Lite IV","Mineral","W37",1,4590.0,""],["2026-09-12","EDV:Event 1","R# TX-145-202609033","Gobi III Sneaker Leather","Limestone","M41",1,5391.0,""],["2026-09-13","EDV:Event 1","R# TX-145-202609036","Gobi III Sneaker Leather","Limestone","M43",1,5391.0,""],["2026-09-13","EDV:Event 1","R# TX-145-202609036","Primus Lite IV","Mineral","W38",1,4590.0,""],["2026-09-13","EDV:Event 1","R# TX-145-202609037","Primus Lite IV","Mineral","M44",1,4590.0,""],["2026-09-13","EDV:Event 1","R# TX-145-202609039","Primus Lite IV","Obsidian","W40",1,4590.0,""],["2026-09-13","EDV:Event 1","R# TX-145-202609040","Primus Lite IV","Mineral","W38",1,4590.0,""],["2026-09-13","EDV:Event 1","R# TX-145-202609043","Sensus II","Tan","M44",1,5508.0,""],["2026-09-13","EDV:Event 1","R# TX-145-202609044","Primus Lite IV","Mineral","M42",1,4590.0,""],["2026-09-14","EDV:Event 1","R# TX-145-202609046","Primus Lite IV","Mineral","M42",1,4590.0,""],["2026-09-14","EDV:Event 1","R# TX-145-202609048","Gobi III Sneaker Leather","Obsidian","W38",1,5391.0,""],["2026-09-15","BFT:Event 1","RC-12-202609048","Primus Lite IV","Storm Cloud","W37",1,4590.0,""],["2026-09-15","BFT:Event 1","RC-12-202609052","Gobi II Sneaker Leather","Limestone","W36",1,4792.0,""],["2026-09-15","BFT:Event 1","RC-12-202609052","Primus Trail FG 3.5","Obsidian","W36",1,5715.0,""],["2026-09-15","BFT:Event 1","RC-12-202609052","Primus Trail FG 3.5","Silver Birch","W36",1,5715.0,""],["2026-09-15","BFT:Event 1","RC-12-202609053","Primus Trail FG 3.5","Obsidian","M41",1,5715.0,""],["2026-09-15","BFT:Event 1","RC-12-202609056","Sensus Yin Slide","Obsidian","W39",1,4437.0,""],["2026-09-15","BFT:Event 1","RC-12-202609057","Primus Lite IV","Obsidian","M42",1,4590.0,""],["2026-09-15","BFT:Event 1","RC-12-202609059","Gobi III Sneaker Leather","Limestone","M42",1,5391.0,""],["2026-09-15","EDV:","TIV-202609004","Motus Strength II","Eclipse","M41",1,4488.0,"pending"],["2026-09-15","EDV:Event 1","R# TX-145-202609049","Gobi III Sneaker Leather","Limestone","M42",1,5391.0,""],["2026-09-15","EDV:Event 1","R# TX-145-202609049","Primus Trail FG 3.5","Obsidian","M43",1,5715.0,""],["2026-09-16","BFT:Event 1","RC-12-202609060","Gobi III Sneaker Leather","Limestone","W38",1,5391.0,""],["2026-09-16","BFT:Event 1","RC-12-202609061","Primus Lite IV","Mineral","W37",1,4590.0,""],["2026-09-16","BFT:Event 1","RC-12-202609066","Primus Lite IV","Storm Cloud","W38",1,4590.0,""],["2026-09-16","BFT:Event 1","RC-12-202609068","Ra IV","Obsidian","M43",1,4896.0,""],["2026-09-16","BFT:Event 1","RC-12-202609068","Sensus II","Tan","M43",1,5508.0,""],["2026-09-16","EDV:Event 1","R# TX-145-202609051","Primus Lite Knit Natural","Eclipse","M41",1,5202.0,""],["2026-09-16","EDV:Event 1","R# TX-145-202609052","Primus Lite IV","Obsidian","M42",1,4590.0,""],["2026-09-16","EDV:Event 1","R# TX-145-202609053","Primus Lite IV","Mineral","M42",1,4590.0,""],["2026-09-17","BFT:Event 1","RC-12-202609074","Primus Lite IV","Storm Cloud","W36",1,4590.0,""],["2026-09-17","BFT:Event 1","RC-12-202609077","Primus Lite IV","Mineral","W38",1,4590.0,""],["2026-09-17","BFT:Event 1","RC-12-202609078","Gobi III Sneaker Leather","Limestone","W38",1,5391.0,""],["2026-09-17","BFT:Event 1","RC-12-202609079","Primus Lite 3.5","Mineral","W35",1,4080.0,""],["2026-09-17","BFT:Event 1","RC-12-202609080","Primus Lite IV","Obsidian","W37",1,4590.0,""],["2026-09-17","BFT:Event 1","RC-12-202609080","Primus Lite IV","Storm Cloud","W37",1,4590.0,""],["2026-09-17","BFT:Event 1","RC-12-202609080","Primus Lite IV","Storm Cloud","W39",1,4590.0,""],["2026-09-17","BFT:Event 1","RC-12-202609087","Motus Strength","Obsidian/Grey","M40",1,5712.0,""],["2026-09-17","BFT:Event 1","RC-12-202609089","Motus Strength II","Storm Cloud","W38",1,6732.0,""],["2026-09-17","BFT:Event 1","RC-12-202609091","Motus Strength II","Skyway","M43",1,6732.0,""],["2026-09-17","EDV:Event 1","R# TX-145-202609057","Sensus II","Tan","M41",1,5508.0,""],["2026-09-18","BFT:Event 1","RC-12-202609092","Primus Lite IV","Obsidian","W38",1,4590.0,""],["2026-09-18","BFT:Event 1","RC-12-202609094","Primus Trail FG 3.5","Obsidian","M44",1,5715.0,""],["2026-09-18","BFT:Event 1","RC-12-202609098","Primus Lite IV","Mineral","W38",1,4590.0,""],["2026-09-18","BFT:Event 1","RC-12-202609099","Gobi III Sneaker Leather","Triple Obsidian","M42",1,5391.0,""],["2026-09-18","BFT:Event 1","RC-12-202609102","Primus Flow","Coconut","M45",1,5304.0,""],["2026-09-18","EDV:Event 1","R# TX-145-202609059","Primus Lite IV","Obsidian","M43",1,4590.0,""],["2026-09-19","BFT:Event 1","RB-202609004","Ra IV","Obsidian","M43",1,4896.0,""],["2026-09-19","BFT:Event 1","RB-202609005","Primus Lite IV","Storm Cloud","M41",1,4590.0,""],["2026-09-19","BFT:Event 1","RC-12-202609104","Motus Flex Natural","Sand","W37",1,6120.0,""],["2026-09-19","BFT:Event 1","RC-12-202609105","Motus Flex Natural","Sand","W37",1,6120.0,""],["2026-09-19","BFT:Event 1","RC-12-202609111","Primus Lite IV All Weather","Obsidian","W35",1,5508.0,""],["2026-09-19","BFT:Event 1","RC-12-202609116","Primus Trail Knit FG","Obsidian","W36",1,5661.0,""],["2026-09-19","EDV:","TIV-202609003","Primus Lite IV","Mineral","M41",1,5100.0,"pending"],["2026-09-19","EDV:Event 1","R# TX-145-202609063","Gobi III Sneaker Leather","Limestone","W37",1,5391.0,""],["2026-09-19","EDV:Event 1","R# TX-145-202609063","Primus Trail FG 3.5","Insignia Blue","W37",1,6350.0,""],["2026-09-19","EDV:Event 1","R# TX-145-202609064","Gobi III Sneaker Leather","Limestone","W36",1,5391.0,""],["2026-09-19","EDV:Event 1","R# TX-145-202609066","Primus Trail FG 3.5","Obsidian","W38",1,5715.0,""],["2026-09-19","EDV:Event 1","R# TX-145-202609067","Primus Trail FG 3.5","Obsidian","M42",1,5715.0,""],["2026-09-19","EDV:Event 1","R# TX-145-202609068","Primus Lite IV","Mineral","W38",1,4590.0,""],["2026-09-19","EDV:Event 1","R# TX-145-202609069","Motus Strength II","Storm Cloud","M42",1,6732.0,""],["2026-09-19","EDV:Event 1","R# TX-145-202609070","Primus Trail FG 3.5","Mineral","M45",1,5715.0,""],["2026-09-19","EDV:Event 1","R# TX-145-202609073","Gobi III Sneaker Leather","Limestone","M44",1,5391.0,""],["2026-09-19","EDV:Event 1","R# TX-145-202609073","Primus Lite IV","Storm Cloud","M44",1,4590.0,""],["2026-09-20","BFT:Event 1","RC-12-202609120","Primus Lite IV","Obsidian","W39",1,4590.0,""],["2026-09-20","BFT:Event 1","RC-12-202609121","Primus Lite IV","Storm Cloud","M43",1,4590.0,""],["2026-09-20","BFT:Event 1","RC-12-202609122","Motus Strength II","Eclipse","M43",1,6732.0,""],["2026-09-20","BFT:Event 1","RC-12-202609122","Primus Lite Knit Natural","Eclipse","M43",1,5202.0,""],["2026-09-20","BFT:Event 1","RC-12-202609123","Primus Flow Knit","Chocolate Truffle","M43",1,5202.0,""],["2026-09-20","BFT:Event 1","RC-12-202609128","Motus Strength","Dusty Rose","W39",1,5712.0,""],["2026-09-20","BFT:Event 1","RC-12-202609132","Gobi III Sneaker Leather","Limestone","M43",1,5391.0,""],["2026-09-20","BFT:Event 1","RC-12-202609138","Primus Lite IV","Storm Cloud","W38",1,4590.0,""],["2026-09-20","BFT:Event 1","RC-12-202609138","Primus Trail III All Weather FG","Obsidian","W38",1,5724.0,""],["2026-09-20","BFT:Event 1","RC-12-202609138","Ra IV","Obsidian","M42",1,4896.0,""],["2026-09-20","EDV:Event 1","R# TX-145-202609074","Primus Trail FG 3.5","Obsidian","W39",1,5715.0,""],["2026-09-20","EDV:Event 1","R# TX-145-202609075","Primus Trail FG 3.5","Obsidian","M40",1,5715.0,""],["2026-09-20","EDV:Event 1","R# TX-145-202609076","Primus Lite IV","Mineral","M43",1,4590.0,""],["2026-09-21","BFT:Event 1","RC-12-202609139","Primus Lite Knit Natural","Eclipse","W38",1,5202.0,""],["2026-09-21","BFT:Event 1","RC-12-202609141","Primus Lite IV","Obsidian","M42",1,4590.0,""],["2026-09-21","BFT:Event 1","RC-12-202609142","Primus Lite IV","Storm Cloud","M41",1,4590.0,""],["2026-09-21","BFT:Event 1","RC-12-202609146","Primus Lite Knit Natural","Eclipse","W38",1,5202.0,""],["2026-09-21","BFT:Event 1","RC-12-202609147","Motus Strength II","Eclipse","W38",1,6732.0,""],["2026-09-21","EDV:Event 1","R# TX-145-202609082","Primus Lite IV","Mineral","W37",1,4590.0,""],["2026-09-22","BFT:Event 1","RC-12-202609151","Primus Trail III All Weather FG","Obsidian","M45",1,5724.0,""],["2026-09-22","BFT:Event 1","RC-12-202609152","Primus Lite IV","Storm Cloud","M42",1,4590.0,""],["2026-09-22","BFT:Event 1","RC-12-202609155","Motus Strength II","Skyway","M41",1,6732.0,""],["2026-09-22","BFT:Event 1","RC-12-202609157","Primus Lite IV","Storm Cloud","W38",1,4590.0,""],["2026-09-22","BFT:Event 1","RC-12-202609159","Gobi III Sneaker Leather","Limestone","W37",1,5391.0,""],["2026-09-22","BFT:Event 1","RC-12-202609161","Primus Lite 3.5","Midnight","W36",1,4080.0,""],["2026-09-22","EDV:Event 1","R# TX-145-202609084","Primus Lite Knit Natural","Eclipse","M43",1,5202.0,""],["2026-09-23","BFT:Event 1","RC-12-202609165","Motus Flex","Obsidian","W36",1,6120.0,""],["2026-09-23","EDV:Event 1","R# TX-145-202609086","Primus Lite IV","Storm Cloud","M42",1,4590.0,""],["2026-09-24","BFT:Event 1","RC-12-202609167","Gobi II Sneaker Leather","Limestone","M45",1,4792.0,""],["2026-09-24","BFT:Event 1","RC-12-202609171","Motus Flex Natural","Sand","W38",1,6120.0,""],["2026-09-24","BFT:Event 1","RC-12-202609172","Gobi III Sneaker Leather","Triple Obsidian","M44",1,5391.0,""],["2026-09-24","BFT:Event 1","RC-12-202609173","Motus Strength II","Eclipse","M43",1,6732.0,""],["2026-09-24","BFT:Event 1","RC-12-202609175","Primus Lite IV","Storm Cloud","M42",1,4590.0,""],["2026-09-24","BFT:Event 1","RC-12-202609176","Motus Strength","Bright White/Grey","W40",1,5712.0,""],["2026-09-25","BFT:Event 1","RC-12-202609179","Motus Strength II","Eclipse","M46",1,6732.0,""],["2026-09-25","BFT:Event 1","RC-12-202609180","Motus Flex Natural","Sand","W38",1,6120.0,""],["2026-09-25","BFT:Event 1","RC-12-202609181","Primus Lite IV","Obsidian","W38",1,4590.0,""],["2026-09-25","BFT:Event 1","RC-12-202609183","Primus Lite Knit Natural","Eclipse","M42",1,5202.0,""],["2026-09-25","BFT:Event 1","RC-12-202609185","Motus Flex","Spacedye","W35",1,6120.0,""],["2026-09-25","BFT:Event 1","RC-12-202609193","Gobi II Sneaker Leather","Limestone","M41",1,4792.0,""],["2026-09-26","BFT:Event 1","RC-12-202609197","Motus Strength II","Storm Cloud","M44",1,6732.0,""],["2026-09-26","BFT:Event 1","RC-12-202609197","Primus Flow Knit","Chocolate Truffle","M44",1,5202.0,""],["2026-09-26","BFT:Event 1","RC-12-202609198","Primus Lite IV","Obsidian","M42",1,4590.0,""],["2026-09-26","BFT:Event 1","RC-12-202609200","Primus Flow","Dark Shadow","W39",1,5304.0,""],["2026-09-26","BFT:Event 1","RC-12-202609206","Primus Lite Knit","Bright White","M41",1,5202.0,""],["2026-09-26","BFT:Event 1","RC-12-202609207","Motus Flex Natural","Sand","W36",1,6120.0,""],["2026-09-26","EDV:Event 1","R# TX-145-202609088","Primus Trail FG 3.5","Obsidian","M45",1,5715.0,""],["2026-09-26","EDV:Event 1","R# TX-145-202609089","Primus Lite IV","Mineral","W38",1,4590.0,""],["2026-09-26","EDV:Event 1","R# TX-145-202609089","Primus Lite Knit Natural","Eclipse","M44",1,5202.0,""],["2026-09-26","EDV:Event 1","R# TX-145-202609094","Primus Lite IV","Mineral","W38",1,4590.0,""],["2026-09-26","EDV:Event 1","R# TX-145-202609096","Gobi III Sneaker Leather","Limestone","W39",1,5391.0,""],["2026-09-27","BFT:Event 1","RC-12-202609216","Motus Flex","Obsidian","W37",1,6120.0,""],["2026-09-27","BFT:Event 1","RC-12-202609219","Primus Flow","Dark Shadow","M40",1,5304.0,""],["2026-09-27","BFT:Event 1","RC-12-202609228","Motus Strength II","Storm Cloud","M43",1,6732.0,""],["2026-09-27","EDV:","TIV-202609006","Primus Lite IV","Mineral","M43",1,5100.0,"pending"],["2026-09-28","BFT:Event 1","RC-12-202609240","Gobi II Sneaker Leather","Limestone","M41",1,4792.0,""],["2026-09-28","BFT:Event 1","RC-12-202609240","Primus Lite Knit","Bright White","M41",1,5202.0,""],["2026-09-28","BFT:Event 1","RC-12-202609240","Sensus II","Tan","M41",1,5508.0,""],["2026-09-28","BFT:Event 1","RC-12-202609246","Primus Lite 3.5","Mineral","W36",1,4080.0,""],["2026-09-28","EDV:Event 1","R# TX-145-202609098","Primus Lite IV","Storm Cloud","M42",1,4590.0,""],["2026-09-28","EDV:Event 1","R# TX-145-202609100","Primus Trail FG 3.5","Mineral","M44",1,5715.0,""],["2026-09-29","BFT:Event 1","RC-12-202609247","Primus Lite IV","Obsidian","W38",1,4590.0,""],["2026-09-29","BFT:Event 1","RC-12-202609250","Sensus II","Tan","M44",1,5508.0,""],["2026-09-29","BFT:Event 1","RC-12-202609252","Motus Strength II","Skyway","M43",1,6732.0,""],["2026-09-29","BFT:Event 1","RC-12-202609253","Primus Lite IV","Mineral","M42",1,4590.0,""],["2026-09-29","BFT:Event 1","RC-12-202609256","Geo Court IV","Bright White","M43",1,5508.0,""],["2026-09-29","BFT:Event 1","RC-12-202609259","Motus Strength II","Storm Cloud","M44",1,6732.0,""],["2026-09-29","EDV:Event 1","R# TX-145-202609104","Primus Trail FG 3.5","Insignia Blue","W38",1,5715.0,""],["2026-09-30","BFT:Event 1","RC-12-202609262","Primus Lite Knit","Midnight","M40",1,5202.0,""],["2026-09-30","BFT:Event 1","RC-12-202609265","Gobi III Sneaker Leather","Obsidian","W39",1,5391.0,""],["2026-09-30","BFT:Event 1","RC-12-202609270","Primus Lite Knit","Midnight","M42",1,5202.0,""],["2026-09-30","BFT:Event 1","RC-12-202609271","Motus Strength II","Eclipse","M42",1,6732.0,""],["2026-09-30","BFT:Event 1","RC-12-202609272","Motus Flex Natural","Sand","W40",1,6120.0,""]]};</script>
 <script>
 /* Vivo 販売ダッシュボード。データは vivo.json (scripts/vivo_sales.py で受注明細から作成) */
@@ -744,20 +699,13 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
       "loc.event": "イベント ({w})",
       "loc.online": "オンライン・その他 (LINE 等)",
       "kpi.qty": "販売数量（足）",
-      "kpi.amount": "売上金額",
-      "kpi.amountNote": "明細の金額合計（税込・明細値引き後）",
-      "kpi.orders": "注文数",
-      "kpi.ordersNote": "{n} か所の販売場所",
-      "kpi.avg": "平均販売単価",
-      "kpi.avgNote": "売上金額 ÷ 販売数量",
-      "c.daily": "日別の販売数量",
-      "c.loc": "販売場所別",
-      "c.locHint": "クリックでその場所に絞り込み",
-      "c.model": "モデル別",
-      "c.modelHint": "クリックでそのモデルに絞り込み",
-      "c.size": "サイズ別",
-      "c.color": "カラー別",
-      "t.title": "商品別の販売数量",
+      "m.title": "モデル別の販売数量",
+      "m.hint": "行をクリックすると、そのモデルのカラー・サイズ別の明細を下に表示",
+      "m.pairs": "足数",
+      "m.share": "構成比",
+      "m.models": "{n} モデル",
+      "m.amount": "売上 ฿{a}",
+      "t.title": "カラー・サイズ別の明細",
       "t.items": "{n} 品目",
       "t.model": "モデル", "t.color": "カラー", "t.size": "サイズ", "t.total": "合計", "t.amount": "金額 (฿)",
       "t.sum": "合計",
@@ -766,8 +714,6 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
       copied: "コピーしました",
       empty: "条件に合う販売がありません",
       pairs: "{n} 足",
-      "tip.qty": "販売数量",
-      "tip.amt": "金額",
       period: "期間: {f} 〜 {t}",
       src: "元データ: BFT {b} / EDV {e}",
       foot: "受注明細の Category が Vivo の行を集計（取消 Voided は除外）。BFT と EDV のイベント（Event 1）は別のイベントとして扱います。モデル・カラー・サイズは商品名から判定しています。データ作成: {d}",
@@ -799,20 +745,13 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
       "loc.event": "Event ({w})",
       "loc.online": "Online / other (LINE etc.)",
       "kpi.qty": "Pairs sold",
-      "kpi.amount": "Sales amount",
-      "kpi.amountNote": "Sum of line amounts (incl. VAT, after line discounts)",
-      "kpi.orders": "Orders",
-      "kpi.ordersNote": "{n} sales locations",
-      "kpi.avg": "Average price",
-      "kpi.avgNote": "Sales amount ÷ pairs sold",
-      "c.daily": "Pairs sold by day",
-      "c.loc": "By sales location",
-      "c.locHint": "Click to filter to that location",
-      "c.model": "By model",
-      "c.modelHint": "Click to filter to that model",
-      "c.size": "By size",
-      "c.color": "By colour",
-      "t.title": "Pairs sold by item",
+      "m.title": "Pairs sold by model",
+      "m.hint": "Click a row to see that model by colour and size below",
+      "m.pairs": "Pairs",
+      "m.share": "Share",
+      "m.models": "{n} models",
+      "m.amount": "Sales ฿{a}",
+      "t.title": "Detail by colour and size",
       "t.items": "{n} items",
       "t.model": "Model", "t.color": "Colour", "t.size": "Size", "t.total": "Total", "t.amount": "Amount (฿)",
       "t.sum": "Total",
@@ -821,8 +760,6 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
       copied: "Copied",
       empty: "No sales match the filters",
       pairs: "{n} pairs",
-      "tip.qty": "Pairs",
-      "tip.amt": "Amount",
       period: "Period: {f} – {t}",
       src: "Source: BFT {b} / EDV {e}",
       foot: "Order-detail lines with Category = Vivo (voided orders excluded). BFT and EDV events (Event 1) are treated as separate events. Model, colour and size are read from the product name. Generated: {d}",
@@ -854,20 +791,13 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
       "loc.event": "อีเวนต์ ({w})",
       "loc.online": "ออนไลน์ / อื่นๆ (LINE ฯลฯ)",
       "kpi.qty": "จำนวนที่ขาย (คู่)",
-      "kpi.amount": "ยอดขาย",
-      "kpi.amountNote": "ผลรวมยอดรายการ (รวม VAT หลังส่วนลดรายการ)",
-      "kpi.orders": "จำนวนคำสั่งซื้อ",
-      "kpi.ordersNote": "{n} จุดขาย",
-      "kpi.avg": "ราคาขายเฉลี่ย",
-      "kpi.avgNote": "ยอดขาย ÷ จำนวนคู่",
-      "c.daily": "จำนวนที่ขายรายวัน",
-      "c.loc": "ตามจุดขาย",
-      "c.locHint": "คลิกเพื่อกรองเฉพาะจุดขายนั้น",
-      "c.model": "ตามรุ่น",
-      "c.modelHint": "คลิกเพื่อกรองเฉพาะรุ่นนั้น",
-      "c.size": "ตามไซซ์",
-      "c.color": "ตามสี",
-      "t.title": "จำนวนที่ขายตามสินค้า",
+      "m.title": "จำนวนที่ขายตามรุ่น",
+      "m.hint": "คลิกที่แถวเพื่อดูรายละเอียดสีและไซซ์ของรุ่นนั้นด้านล่าง",
+      "m.pairs": "คู่",
+      "m.share": "สัดส่วน",
+      "m.models": "{n} รุ่น",
+      "m.amount": "ยอดขาย ฿{a}",
+      "t.title": "รายละเอียดตามสีและไซซ์",
       "t.items": "{n} รายการ",
       "t.model": "รุ่น", "t.color": "สี", "t.size": "ไซซ์", "t.total": "รวม", "t.amount": "ยอดเงิน (฿)",
       "t.sum": "รวม",
@@ -876,8 +806,6 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
       copied: "คัดลอกแล้ว",
       empty: "ไม่มียอดขายที่ตรงกับเงื่อนไข",
       pairs: "{n} คู่",
-      "tip.qty": "จำนวน",
-      "tip.amt": "ยอดเงิน",
       period: "ช่วงเวลา: {f} – {t}",
       src: "ข้อมูล: BFT {b} / EDV {e}",
       foot: "รวมรายการที่ Category = Vivo จากรายละเอียดคำสั่งซื้อ (ไม่รวมรายการที่ยกเลิก Voided) อีเวนต์ของ BFT และ EDV (Event 1) นับเป็นคนละอีเวนต์ รุ่น สี และไซซ์อ่านจากชื่อสินค้า สร้างข้อมูล: {d}",
@@ -998,78 +926,38 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
         `<i class="sw" data-co="${l.company}"></i>${locLabelHtml(l)}<span class="n">${fmt(qty[l.id] || 0)}</span></button>`).join("");
   }
 
-  /* ---------- ツールチップ ---------- */
-  const tip = $("tip");
-  function showTip(e, html) {
-    tip.innerHTML = html; tip.hidden = false;
-    const r = tip.getBoundingClientRect();
-    let x = e.clientX + 14, y = e.clientY + 14;
-    if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
-    if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
-    tip.style.left = `${Math.max(8, x)}px`; tip.style.top = `${Math.max(8, y)}px`;
-  }
-  const hideTip = () => (tip.hidden = true);
-  const tipBody = (title, byCo, amt) => {
-    const tot = COS.reduce((s, c) => s + (byCo[c] || 0), 0);
-    return `<b>${esc(title)}</b><br>` +
-      COS.map((c) => `<i class="sw" data-co="${c}"></i>${c}: ${fmt(byCo[c] || 0)}`).join("<br>") +
-      `<br>${esc(t("tip.qty"))}: <b>${fmt(tot)}</b>` + (amt !== undefined ? `<br>${esc(t("tip.amt"))}: ฿${fmt(amt)}` : "");
-  };
-  function bindTips(root, getHtml) {
-    root.querySelectorAll("[data-k]").forEach((el) => {
-      el.addEventListener("mousemove", (e) => showTip(e, getHtml(el.dataset.k)));
-      el.addEventListener("mouseleave", hideTip);
-    });
-  }
-
-  /* ---------- 集計 ---------- */
-  const group = (rows, keyFn) => {
+  /* ---------- モデル別の販売数量 (このダッシュボードの主役) ---------- */
+  function renderModels(rows) {
     const m = new Map();
     rows.forEach((r) => {
-      const k = keyFn(r);
-      let g = m.get(k);
-      if (!g) m.set(k, (g = { key: k, qty: 0, amount: 0, BFT: 0, EDV: 0 }));
-      g.qty += r.qty; g.amount += r.amount; g[r.co] += r.qty;
+      let g = m.get(r.model);
+      if (!g) m.set(r.model, (g = { model: r.model, qty: 0, BFT: 0, EDV: 0 }));
+      g.qty += r.qty; g[r.co] += r.qty;
     });
-    return m;
-  };
-
-  // 横棒 (会社ごとに積み上げ)
-  function hbars(el, entries, { label, onClick, active, single }) {
-    if (!entries.length) { el.innerHTML = `<p class="empty-note">${esc(t("empty"))}</p>`; return; }
-    const max = Math.max(...entries.map((e) => e.qty));
-    el.innerHTML = entries.map((e) => {
-      const segs = COS.filter((c) => e[c] > 0).map((c) => `<span class="bar-fill" data-co="${c}" style="width:${(e[c] / max) * 100}%"></span>`).join("");
-      const tag = onClick ? "button" : "div";
-      return `<${tag} ${onClick ? 'type="button"' : ""} class="bar-row${onClick ? "" : " static"}${active === e.key ? " active" : ""}" data-k="${esc(e.key)}">` +
-        `<span class="bar-label" title="${esc(single ? "" : e.key)}">${label(e)}</span>` +
-        `<span class="bar-track stack">${segs}</span><span class="bar-val">${fmt(e.qty)}</span></${tag}>`;
+    const list = [...m.values()].sort((a, b) => b.qty - a.qty || a.model.localeCompare(b.model));
+    const total = list.reduce((s, g) => s + g.qty, 0);
+    // 会社で絞っているときは BFT / EDV の内訳列を出さない
+    const cos = state.company ? [] : COS;
+    $("modelList").className = `mlist cols-${cos.length}`;
+    if (!list.length) { $("modelList").innerHTML = `<p class="empty-note">${esc(t("empty"))}</p>`; return; }
+    const max = list[0].qty;
+    const head = `<div class="mrow mhead" aria-hidden="true"><span></span><span>${esc(t("t.model"))}</span><span></span>` +
+      cos.map((c) => `<span class="mnum"><i class="sw" data-co="${c}"></i>${c}</span>`).join("") +
+      `<span class="mnum">${esc(t("m.pairs"))}</span><span class="mnum mshare">${esc(t("m.share"))}</span></div>`;
+    $("modelList").innerHTML = head + list.map((g, i) => {
+      const segs = (cos.length ? COS : [state.company]).filter((c) => g[c] > 0)
+        .map((c) => `<span class="mfill" data-co="${c}" style="width:${(g[c] / max) * 100}%"></span>`).join("");
+      return `<button type="button" class="mrow${state.model === g.model ? " active" : ""}" data-model="${esc(g.model)}">` +
+        `<span class="mrank">${i + 1}</span><span class="mname">${esc(g.model)}</span>` +
+        `<span class="mbar">${segs}</span>` +
+        cos.map((c) => `<span class="mnum co-n">${g[c] ? fmt(g[c]) : "-"}</span>`).join("") +
+        `<span class="mnum mqty">${fmt(g.qty)}</span><span class="mnum mshare">${Math.round((g.qty / total) * 100)}%</span></button>`;
     }).join("");
-    const map = new Map(entries.map((e) => [String(e.key), e]));
-    bindTips(el, (k) => { const e = map.get(k); return tipBody(e.title || e.key, { BFT: e.BFT, EDV: e.EDV }, e.amount); });
-    if (onClick) el.querySelectorAll(".bar-row").forEach((b) => b.addEventListener("click", () => onClick(b.dataset.k)));
-  }
-
-  // 縦棒 (会社ごとに積み上げ)
-  function vbars(el, entries, { xLabel, showTotals }) {
-    if (!entries.some((e) => e.qty)) { el.innerHTML = `<p class="empty-note">${esc(t("empty"))}</p>`; return; }
-    const maxV = Math.max(...entries.map((e) => e.qty));
-    const step = maxV <= 5 ? 1 : maxV <= 10 ? 2 : maxV <= 25 ? 5 : maxV <= 50 ? 10 : Math.ceil(maxV / 5 / 10) * 10;
-    const top = Math.ceil(maxV / step) * step;
-    const width = el.clientWidth || 600;
-    const every = Math.max(1, Math.ceil(entries.length / Math.max(1, Math.floor((width - 40) / 46))));
-    // 棒の上に合計ラベルを置く分 (16px) を空け、目盛り線も同じ基準にする
-    let grid = "";
-    for (let v = 0; v <= top; v += step) grid += `<div class="grid${v === 0 ? " base" : ""}" style="bottom:calc(22px + (100% - 38px) * ${v / top})"><span>${v}</span></div>`;
-    const cols = entries.map((e, i) => {
-      const present = COS.filter((c) => e[c] > 0);
-      const segs = present.slice().reverse().map((c, j) => `<span class="seg-b${j === 0 ? " cap" : ""}" data-co="${c}" style="height:calc((100% - 16px) * ${e[c] / top})"></span>`).join("");
-      return `<div class="col" data-k="${esc(e.key)}">${showTotals && e.qty ? `<span class="vtot">${e.qty}</span>` : ""}${segs}` +
-        `${i % every === 0 ? `<span class="xl">${esc(xLabel(e))}</span>` : ""}</div>`;
-    }).join("");
-    el.innerHTML = grid + `<div class="cols">${cols}</div>`;
-    const map = new Map(entries.map((e) => [String(e.key), e]));
-    bindTips(el, (k) => { const e = map.get(k); return tipBody(e.title || xLabel(e), { BFT: e.BFT, EDV: e.EDV }, e.amount); });
+    $("modelList").querySelectorAll(".mrow[data-model]").forEach((b) => b.addEventListener("click", () => {
+      state.model = state.model === b.dataset.model ? "" : b.dataset.model;
+      $("fModel").value = state.model;
+      render();
+    }));
   }
 
   /* ---------- 描画 ---------- */
@@ -1079,65 +967,22 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
     syncSeg("segType", state.type);
     renderLocChips();
     const locIds = activeLocIds();
-    const rows = lines.filter((r) => passBase(r) && locIds.has(r.loc));
+    const base = lines.filter((r) => (state.pending || !r.pending) && (!state.from || r.date >= state.from) && (!state.to || r.date <= state.to) && locIds.has(r.loc));
+    const rows = base.filter((r) => !state.model || r.model === state.model);
     current = rows;
 
-    // KPI
-    const qty = rows.reduce((s, r) => s + r.qty, 0);
-    const amt = rows.reduce((s, r) => s + r.amount, 0);
-    const orders = new Set(rows.map((r) => `${r.co}|${r.order}`)).size;
-    const usedLocs = new Set(rows.map((r) => r.loc)).size;
-    const coQty = (c) => rows.reduce((s, r) => s + (r.co === c ? r.qty : 0), 0);
-    const coAmt = (c) => rows.reduce((s, r) => s + (r.co === c ? r.amount : 0), 0);
+    // 合計 (モデル一覧はモデルの絞り込みに関係なく全モデルを出し、選んだモデルを強調する)
+    const qty = base.reduce((s, r) => s + r.qty, 0);
+    const amt = base.reduce((s, r) => s + r.amount, 0);
+    const models = new Set(base.map((r) => r.model)).size;
     $("kQty").textContent = fmt(qty);
-    $("kQtyNote").innerHTML = COS.map((c) => `<span class="co-split"><i class="sw" data-co="${c}"></i>${c} ${fmt(coQty(c))}</span>`).join("");
-    $("kAmt").textContent = `฿${fmt(amt)}`;
-    $("kAmtNote").innerHTML = COS.map((c) => `<span class="co-split"><i class="sw" data-co="${c}"></i>${c} ฿${fmt(coAmt(c))}</span>`).join("");
-    $("kOrders").textContent = fmt(orders);
-    $("kOrdersNote").textContent = t("kpi.ordersNote", { n: usedLocs });
-    $("kAvg").textContent = qty ? `฿${fmt(amt / qty)}` : "–";
-
-    // 日別 (期間内の全日。販売のない日も 0 で表示)
-    const from = state.from || data.from, to = state.to || data.to;
-    const byDay = group(rows, (r) => r.date);
-    const days = [];
-    for (let d = new Date(`${from}T00:00:00Z`); d <= new Date(`${to}T00:00:00Z`) && days.length < 800; d.setUTCDate(d.getUTCDate() + 1)) {
-      const k = d.toISOString().slice(0, 10);
-      const g = byDay.get(k) || { key: k, qty: 0, amount: 0, BFT: 0, EDV: 0 };
-      g.title = fmtDate(k, true);
-      days.push(g);
-    }
-    vbars($("dailyChart"), days, { xLabel: (e) => fmtDate(e.key), showTotals: days.length <= 62 });
-
-    // 販売場所別
-    const byLoc = [...group(rows, (r) => r.loc).values()].sort((a, b) => b.qty - a.qty);
-    byLoc.forEach((e) => (e.title = locLabelText(LOC[e.key])));
-    const oneLoc = state.locs.size === 1 ? [...state.locs][0] : "";
-    hbars($("locChart"), byLoc, {
-      label: (e) => `<i class="sw" data-co="${LOC[e.key].company}"></i>${locLabelHtml(LOC[e.key])}`,
-      active: oneLoc,
-      single: true,
-      onClick: (k) => { if (state.locs.size === 1 && state.locs.has(k)) state.locs.clear(); else { state.locs.clear(); state.locs.add(k); } render(); },
-    });
-
-    // モデル別
-    const byModel = [...group(lines.filter((r) => (state.pending || !r.pending) && (!state.from || r.date >= state.from) && (!state.to || r.date <= state.to) && locIds.has(r.loc)), (r) => r.model).values()]
-      .sort((a, b) => b.qty - a.qty || a.key.localeCompare(b.key));
-    hbars($("modelChart"), byModel, {
-      label: (e) => esc(e.key),
-      active: state.model,
-      onClick: (k) => { state.model = state.model === k ? "" : k; $("fModel").value = state.model; render(); },
-    });
-
-    // サイズ別
-    const bySz = [...group(rows, (r) => r.size || "-").values()].sort((a, b) => bySize(a.key, b.key));
-    vbars($("sizeChart"), bySz, { xLabel: (e) => e.key, showTotals: true });
-
-    // カラー別
-    const byColor = [...group(rows, (r) => r.color || "-").values()].sort((a, b) => b.qty - a.qty || a.key.localeCompare(b.key));
-    hbars($("colorChart"), byColor, { label: (e) => esc(e.key) });
+    $("kQtyNote").innerHTML = (state.company ? [state.company] : COS)
+      .map((c) => `<span class="co-split"><i class="sw" data-co="${c}"></i>${c} ${fmt(base.reduce((s, r) => s + (r.co === c ? r.qty : 0), 0))}</span>`).join("") +
+      `<span class="co-split">${esc(t("m.models", { n: models }))}</span><span class="co-split">${esc(t("m.amount", { a: fmt(amt) }))}</span>`;
+    renderModels(base);
 
     renderTable(rows, locIds);
+    $("tTitleModel").textContent = state.model ? `: ${state.model}` : "";
 
     $("period").textContent = t("period", { f: fmtDate(data.from, true), t: fmtDate(data.to, true) });
     $("source").textContent = t("src", { b: data.sources.BFT, e: data.sources.EDV });
@@ -1221,9 +1066,6 @@ body.selecting, body.selecting * { user-select: none; -webkit-user-select: none;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   });
-
-  let rt;
-  addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => data && render(), 150); });
 
   // 単体版は window.VIVO_DATA にデータを埋め込む
   (window.VIVO_DATA ? Promise.resolve(window.VIVO_DATA) : fetch("vivo.json", { cache: "no-store" }).then((r) => r.json()))

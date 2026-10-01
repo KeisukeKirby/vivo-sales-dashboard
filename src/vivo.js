@@ -34,20 +34,13 @@
       "loc.event": "イベント ({w})",
       "loc.online": "オンライン・その他 (LINE 等)",
       "kpi.qty": "販売数量（足）",
-      "kpi.amount": "売上金額",
-      "kpi.amountNote": "明細の金額合計（税込・明細値引き後）",
-      "kpi.orders": "注文数",
-      "kpi.ordersNote": "{n} か所の販売場所",
-      "kpi.avg": "平均販売単価",
-      "kpi.avgNote": "売上金額 ÷ 販売数量",
-      "c.daily": "日別の販売数量",
-      "c.loc": "販売場所別",
-      "c.locHint": "クリックでその場所に絞り込み",
-      "c.model": "モデル別",
-      "c.modelHint": "クリックでそのモデルに絞り込み",
-      "c.size": "サイズ別",
-      "c.color": "カラー別",
-      "t.title": "商品別の販売数量",
+      "m.title": "モデル別の販売数量",
+      "m.hint": "行をクリックすると、そのモデルのカラー・サイズ別の明細を下に表示",
+      "m.pairs": "足数",
+      "m.share": "構成比",
+      "m.models": "{n} モデル",
+      "m.amount": "売上 ฿{a}",
+      "t.title": "カラー・サイズ別の明細",
       "t.items": "{n} 品目",
       "t.model": "モデル", "t.color": "カラー", "t.size": "サイズ", "t.total": "合計", "t.amount": "金額 (฿)",
       "t.sum": "合計",
@@ -56,8 +49,6 @@
       copied: "コピーしました",
       empty: "条件に合う販売がありません",
       pairs: "{n} 足",
-      "tip.qty": "販売数量",
-      "tip.amt": "金額",
       period: "期間: {f} 〜 {t}",
       src: "元データ: BFT {b} / EDV {e}",
       foot: "受注明細の Category が Vivo の行を集計（取消 Voided は除外）。BFT と EDV のイベント（Event 1）は別のイベントとして扱います。モデル・カラー・サイズは商品名から判定しています。データ作成: {d}",
@@ -89,20 +80,13 @@
       "loc.event": "Event ({w})",
       "loc.online": "Online / other (LINE etc.)",
       "kpi.qty": "Pairs sold",
-      "kpi.amount": "Sales amount",
-      "kpi.amountNote": "Sum of line amounts (incl. VAT, after line discounts)",
-      "kpi.orders": "Orders",
-      "kpi.ordersNote": "{n} sales locations",
-      "kpi.avg": "Average price",
-      "kpi.avgNote": "Sales amount ÷ pairs sold",
-      "c.daily": "Pairs sold by day",
-      "c.loc": "By sales location",
-      "c.locHint": "Click to filter to that location",
-      "c.model": "By model",
-      "c.modelHint": "Click to filter to that model",
-      "c.size": "By size",
-      "c.color": "By colour",
-      "t.title": "Pairs sold by item",
+      "m.title": "Pairs sold by model",
+      "m.hint": "Click a row to see that model by colour and size below",
+      "m.pairs": "Pairs",
+      "m.share": "Share",
+      "m.models": "{n} models",
+      "m.amount": "Sales ฿{a}",
+      "t.title": "Detail by colour and size",
       "t.items": "{n} items",
       "t.model": "Model", "t.color": "Colour", "t.size": "Size", "t.total": "Total", "t.amount": "Amount (฿)",
       "t.sum": "Total",
@@ -111,8 +95,6 @@
       copied: "Copied",
       empty: "No sales match the filters",
       pairs: "{n} pairs",
-      "tip.qty": "Pairs",
-      "tip.amt": "Amount",
       period: "Period: {f} – {t}",
       src: "Source: BFT {b} / EDV {e}",
       foot: "Order-detail lines with Category = Vivo (voided orders excluded). BFT and EDV events (Event 1) are treated as separate events. Model, colour and size are read from the product name. Generated: {d}",
@@ -144,20 +126,13 @@
       "loc.event": "อีเวนต์ ({w})",
       "loc.online": "ออนไลน์ / อื่นๆ (LINE ฯลฯ)",
       "kpi.qty": "จำนวนที่ขาย (คู่)",
-      "kpi.amount": "ยอดขาย",
-      "kpi.amountNote": "ผลรวมยอดรายการ (รวม VAT หลังส่วนลดรายการ)",
-      "kpi.orders": "จำนวนคำสั่งซื้อ",
-      "kpi.ordersNote": "{n} จุดขาย",
-      "kpi.avg": "ราคาขายเฉลี่ย",
-      "kpi.avgNote": "ยอดขาย ÷ จำนวนคู่",
-      "c.daily": "จำนวนที่ขายรายวัน",
-      "c.loc": "ตามจุดขาย",
-      "c.locHint": "คลิกเพื่อกรองเฉพาะจุดขายนั้น",
-      "c.model": "ตามรุ่น",
-      "c.modelHint": "คลิกเพื่อกรองเฉพาะรุ่นนั้น",
-      "c.size": "ตามไซซ์",
-      "c.color": "ตามสี",
-      "t.title": "จำนวนที่ขายตามสินค้า",
+      "m.title": "จำนวนที่ขายตามรุ่น",
+      "m.hint": "คลิกที่แถวเพื่อดูรายละเอียดสีและไซซ์ของรุ่นนั้นด้านล่าง",
+      "m.pairs": "คู่",
+      "m.share": "สัดส่วน",
+      "m.models": "{n} รุ่น",
+      "m.amount": "ยอดขาย ฿{a}",
+      "t.title": "รายละเอียดตามสีและไซซ์",
       "t.items": "{n} รายการ",
       "t.model": "รุ่น", "t.color": "สี", "t.size": "ไซซ์", "t.total": "รวม", "t.amount": "ยอดเงิน (฿)",
       "t.sum": "รวม",
@@ -166,8 +141,6 @@
       copied: "คัดลอกแล้ว",
       empty: "ไม่มียอดขายที่ตรงกับเงื่อนไข",
       pairs: "{n} คู่",
-      "tip.qty": "จำนวน",
-      "tip.amt": "ยอดเงิน",
       period: "ช่วงเวลา: {f} – {t}",
       src: "ข้อมูล: BFT {b} / EDV {e}",
       foot: "รวมรายการที่ Category = Vivo จากรายละเอียดคำสั่งซื้อ (ไม่รวมรายการที่ยกเลิก Voided) อีเวนต์ของ BFT และ EDV (Event 1) นับเป็นคนละอีเวนต์ รุ่น สี และไซซ์อ่านจากชื่อสินค้า สร้างข้อมูล: {d}",
@@ -288,78 +261,38 @@
         `<i class="sw" data-co="${l.company}"></i>${locLabelHtml(l)}<span class="n">${fmt(qty[l.id] || 0)}</span></button>`).join("");
   }
 
-  /* ---------- ツールチップ ---------- */
-  const tip = $("tip");
-  function showTip(e, html) {
-    tip.innerHTML = html; tip.hidden = false;
-    const r = tip.getBoundingClientRect();
-    let x = e.clientX + 14, y = e.clientY + 14;
-    if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
-    if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
-    tip.style.left = `${Math.max(8, x)}px`; tip.style.top = `${Math.max(8, y)}px`;
-  }
-  const hideTip = () => (tip.hidden = true);
-  const tipBody = (title, byCo, amt) => {
-    const tot = COS.reduce((s, c) => s + (byCo[c] || 0), 0);
-    return `<b>${esc(title)}</b><br>` +
-      COS.map((c) => `<i class="sw" data-co="${c}"></i>${c}: ${fmt(byCo[c] || 0)}`).join("<br>") +
-      `<br>${esc(t("tip.qty"))}: <b>${fmt(tot)}</b>` + (amt !== undefined ? `<br>${esc(t("tip.amt"))}: ฿${fmt(amt)}` : "");
-  };
-  function bindTips(root, getHtml) {
-    root.querySelectorAll("[data-k]").forEach((el) => {
-      el.addEventListener("mousemove", (e) => showTip(e, getHtml(el.dataset.k)));
-      el.addEventListener("mouseleave", hideTip);
-    });
-  }
-
-  /* ---------- 集計 ---------- */
-  const group = (rows, keyFn) => {
+  /* ---------- モデル別の販売数量 (このダッシュボードの主役) ---------- */
+  function renderModels(rows) {
     const m = new Map();
     rows.forEach((r) => {
-      const k = keyFn(r);
-      let g = m.get(k);
-      if (!g) m.set(k, (g = { key: k, qty: 0, amount: 0, BFT: 0, EDV: 0 }));
-      g.qty += r.qty; g.amount += r.amount; g[r.co] += r.qty;
+      let g = m.get(r.model);
+      if (!g) m.set(r.model, (g = { model: r.model, qty: 0, BFT: 0, EDV: 0 }));
+      g.qty += r.qty; g[r.co] += r.qty;
     });
-    return m;
-  };
-
-  // 横棒 (会社ごとに積み上げ)
-  function hbars(el, entries, { label, onClick, active, single }) {
-    if (!entries.length) { el.innerHTML = `<p class="empty-note">${esc(t("empty"))}</p>`; return; }
-    const max = Math.max(...entries.map((e) => e.qty));
-    el.innerHTML = entries.map((e) => {
-      const segs = COS.filter((c) => e[c] > 0).map((c) => `<span class="bar-fill" data-co="${c}" style="width:${(e[c] / max) * 100}%"></span>`).join("");
-      const tag = onClick ? "button" : "div";
-      return `<${tag} ${onClick ? 'type="button"' : ""} class="bar-row${onClick ? "" : " static"}${active === e.key ? " active" : ""}" data-k="${esc(e.key)}">` +
-        `<span class="bar-label" title="${esc(single ? "" : e.key)}">${label(e)}</span>` +
-        `<span class="bar-track stack">${segs}</span><span class="bar-val">${fmt(e.qty)}</span></${tag}>`;
+    const list = [...m.values()].sort((a, b) => b.qty - a.qty || a.model.localeCompare(b.model));
+    const total = list.reduce((s, g) => s + g.qty, 0);
+    // 会社で絞っているときは BFT / EDV の内訳列を出さない
+    const cos = state.company ? [] : COS;
+    $("modelList").className = `mlist cols-${cos.length}`;
+    if (!list.length) { $("modelList").innerHTML = `<p class="empty-note">${esc(t("empty"))}</p>`; return; }
+    const max = list[0].qty;
+    const head = `<div class="mrow mhead" aria-hidden="true"><span></span><span>${esc(t("t.model"))}</span><span></span>` +
+      cos.map((c) => `<span class="mnum"><i class="sw" data-co="${c}"></i>${c}</span>`).join("") +
+      `<span class="mnum">${esc(t("m.pairs"))}</span><span class="mnum mshare">${esc(t("m.share"))}</span></div>`;
+    $("modelList").innerHTML = head + list.map((g, i) => {
+      const segs = (cos.length ? COS : [state.company]).filter((c) => g[c] > 0)
+        .map((c) => `<span class="mfill" data-co="${c}" style="width:${(g[c] / max) * 100}%"></span>`).join("");
+      return `<button type="button" class="mrow${state.model === g.model ? " active" : ""}" data-model="${esc(g.model)}">` +
+        `<span class="mrank">${i + 1}</span><span class="mname">${esc(g.model)}</span>` +
+        `<span class="mbar">${segs}</span>` +
+        cos.map((c) => `<span class="mnum co-n">${g[c] ? fmt(g[c]) : "-"}</span>`).join("") +
+        `<span class="mnum mqty">${fmt(g.qty)}</span><span class="mnum mshare">${Math.round((g.qty / total) * 100)}%</span></button>`;
     }).join("");
-    const map = new Map(entries.map((e) => [String(e.key), e]));
-    bindTips(el, (k) => { const e = map.get(k); return tipBody(e.title || e.key, { BFT: e.BFT, EDV: e.EDV }, e.amount); });
-    if (onClick) el.querySelectorAll(".bar-row").forEach((b) => b.addEventListener("click", () => onClick(b.dataset.k)));
-  }
-
-  // 縦棒 (会社ごとに積み上げ)
-  function vbars(el, entries, { xLabel, showTotals }) {
-    if (!entries.some((e) => e.qty)) { el.innerHTML = `<p class="empty-note">${esc(t("empty"))}</p>`; return; }
-    const maxV = Math.max(...entries.map((e) => e.qty));
-    const step = maxV <= 5 ? 1 : maxV <= 10 ? 2 : maxV <= 25 ? 5 : maxV <= 50 ? 10 : Math.ceil(maxV / 5 / 10) * 10;
-    const top = Math.ceil(maxV / step) * step;
-    const width = el.clientWidth || 600;
-    const every = Math.max(1, Math.ceil(entries.length / Math.max(1, Math.floor((width - 40) / 46))));
-    // 棒の上に合計ラベルを置く分 (16px) を空け、目盛り線も同じ基準にする
-    let grid = "";
-    for (let v = 0; v <= top; v += step) grid += `<div class="grid${v === 0 ? " base" : ""}" style="bottom:calc(22px + (100% - 38px) * ${v / top})"><span>${v}</span></div>`;
-    const cols = entries.map((e, i) => {
-      const present = COS.filter((c) => e[c] > 0);
-      const segs = present.slice().reverse().map((c, j) => `<span class="seg-b${j === 0 ? " cap" : ""}" data-co="${c}" style="height:calc((100% - 16px) * ${e[c] / top})"></span>`).join("");
-      return `<div class="col" data-k="${esc(e.key)}">${showTotals && e.qty ? `<span class="vtot">${e.qty}</span>` : ""}${segs}` +
-        `${i % every === 0 ? `<span class="xl">${esc(xLabel(e))}</span>` : ""}</div>`;
-    }).join("");
-    el.innerHTML = grid + `<div class="cols">${cols}</div>`;
-    const map = new Map(entries.map((e) => [String(e.key), e]));
-    bindTips(el, (k) => { const e = map.get(k); return tipBody(e.title || xLabel(e), { BFT: e.BFT, EDV: e.EDV }, e.amount); });
+    $("modelList").querySelectorAll(".mrow[data-model]").forEach((b) => b.addEventListener("click", () => {
+      state.model = state.model === b.dataset.model ? "" : b.dataset.model;
+      $("fModel").value = state.model;
+      render();
+    }));
   }
 
   /* ---------- 描画 ---------- */
@@ -369,65 +302,22 @@
     syncSeg("segType", state.type);
     renderLocChips();
     const locIds = activeLocIds();
-    const rows = lines.filter((r) => passBase(r) && locIds.has(r.loc));
+    const base = lines.filter((r) => (state.pending || !r.pending) && (!state.from || r.date >= state.from) && (!state.to || r.date <= state.to) && locIds.has(r.loc));
+    const rows = base.filter((r) => !state.model || r.model === state.model);
     current = rows;
 
-    // KPI
-    const qty = rows.reduce((s, r) => s + r.qty, 0);
-    const amt = rows.reduce((s, r) => s + r.amount, 0);
-    const orders = new Set(rows.map((r) => `${r.co}|${r.order}`)).size;
-    const usedLocs = new Set(rows.map((r) => r.loc)).size;
-    const coQty = (c) => rows.reduce((s, r) => s + (r.co === c ? r.qty : 0), 0);
-    const coAmt = (c) => rows.reduce((s, r) => s + (r.co === c ? r.amount : 0), 0);
+    // 合計 (モデル一覧はモデルの絞り込みに関係なく全モデルを出し、選んだモデルを強調する)
+    const qty = base.reduce((s, r) => s + r.qty, 0);
+    const amt = base.reduce((s, r) => s + r.amount, 0);
+    const models = new Set(base.map((r) => r.model)).size;
     $("kQty").textContent = fmt(qty);
-    $("kQtyNote").innerHTML = COS.map((c) => `<span class="co-split"><i class="sw" data-co="${c}"></i>${c} ${fmt(coQty(c))}</span>`).join("");
-    $("kAmt").textContent = `฿${fmt(amt)}`;
-    $("kAmtNote").innerHTML = COS.map((c) => `<span class="co-split"><i class="sw" data-co="${c}"></i>${c} ฿${fmt(coAmt(c))}</span>`).join("");
-    $("kOrders").textContent = fmt(orders);
-    $("kOrdersNote").textContent = t("kpi.ordersNote", { n: usedLocs });
-    $("kAvg").textContent = qty ? `฿${fmt(amt / qty)}` : "–";
-
-    // 日別 (期間内の全日。販売のない日も 0 で表示)
-    const from = state.from || data.from, to = state.to || data.to;
-    const byDay = group(rows, (r) => r.date);
-    const days = [];
-    for (let d = new Date(`${from}T00:00:00Z`); d <= new Date(`${to}T00:00:00Z`) && days.length < 800; d.setUTCDate(d.getUTCDate() + 1)) {
-      const k = d.toISOString().slice(0, 10);
-      const g = byDay.get(k) || { key: k, qty: 0, amount: 0, BFT: 0, EDV: 0 };
-      g.title = fmtDate(k, true);
-      days.push(g);
-    }
-    vbars($("dailyChart"), days, { xLabel: (e) => fmtDate(e.key), showTotals: days.length <= 62 });
-
-    // 販売場所別
-    const byLoc = [...group(rows, (r) => r.loc).values()].sort((a, b) => b.qty - a.qty);
-    byLoc.forEach((e) => (e.title = locLabelText(LOC[e.key])));
-    const oneLoc = state.locs.size === 1 ? [...state.locs][0] : "";
-    hbars($("locChart"), byLoc, {
-      label: (e) => `<i class="sw" data-co="${LOC[e.key].company}"></i>${locLabelHtml(LOC[e.key])}`,
-      active: oneLoc,
-      single: true,
-      onClick: (k) => { if (state.locs.size === 1 && state.locs.has(k)) state.locs.clear(); else { state.locs.clear(); state.locs.add(k); } render(); },
-    });
-
-    // モデル別
-    const byModel = [...group(lines.filter((r) => (state.pending || !r.pending) && (!state.from || r.date >= state.from) && (!state.to || r.date <= state.to) && locIds.has(r.loc)), (r) => r.model).values()]
-      .sort((a, b) => b.qty - a.qty || a.key.localeCompare(b.key));
-    hbars($("modelChart"), byModel, {
-      label: (e) => esc(e.key),
-      active: state.model,
-      onClick: (k) => { state.model = state.model === k ? "" : k; $("fModel").value = state.model; render(); },
-    });
-
-    // サイズ別
-    const bySz = [...group(rows, (r) => r.size || "-").values()].sort((a, b) => bySize(a.key, b.key));
-    vbars($("sizeChart"), bySz, { xLabel: (e) => e.key, showTotals: true });
-
-    // カラー別
-    const byColor = [...group(rows, (r) => r.color || "-").values()].sort((a, b) => b.qty - a.qty || a.key.localeCompare(b.key));
-    hbars($("colorChart"), byColor, { label: (e) => esc(e.key) });
+    $("kQtyNote").innerHTML = (state.company ? [state.company] : COS)
+      .map((c) => `<span class="co-split"><i class="sw" data-co="${c}"></i>${c} ${fmt(base.reduce((s, r) => s + (r.co === c ? r.qty : 0), 0))}</span>`).join("") +
+      `<span class="co-split">${esc(t("m.models", { n: models }))}</span><span class="co-split">${esc(t("m.amount", { a: fmt(amt) }))}</span>`;
+    renderModels(base);
 
     renderTable(rows, locIds);
+    $("tTitleModel").textContent = state.model ? `: ${state.model}` : "";
 
     $("period").textContent = t("period", { f: fmtDate(data.from, true), t: fmtDate(data.to, true) });
     $("source").textContent = t("src", { b: data.sources.BFT, e: data.sources.EDV });
@@ -511,9 +401,6 @@
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   });
-
-  let rt;
-  addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => data && render(), 150); });
 
   // 単体版は window.VIVO_DATA にデータを埋め込む
   (window.VIVO_DATA ? Promise.resolve(window.VIVO_DATA) : fetch("vivo.json", { cache: "no-store" }).then((r) => r.json()))

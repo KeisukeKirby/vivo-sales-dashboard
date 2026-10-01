@@ -69,74 +69,24 @@
       </div>
     </section>
 
-    <section class="kpis">
-      <div class="kpi kpi-main">
-        <p class="kpi-label" data-i18n="kpi.qty"></p>
-        <p class="kpi-value" id="kQty">–</p>
-        <p class="kpi-note" id="kQtyNote"></p>
-      </div>
-      <div class="kpi">
-        <p class="kpi-label" data-i18n="kpi.amount"></p>
-        <p class="kpi-value" id="kAmt">–</p>
-        <p class="kpi-note" id="kAmtNote"></p>
-      </div>
-      <div class="kpi">
-        <p class="kpi-label" data-i18n="kpi.orders"></p>
-        <p class="kpi-value" id="kOrders">–</p>
-        <p class="kpi-note" id="kOrdersNote"></p>
-      </div>
-      <div class="kpi">
-        <p class="kpi-label" data-i18n="kpi.avg"></p>
-        <p class="kpi-value" id="kAvg">–</p>
-        <p class="kpi-note" data-i18n="kpi.avgNote"></p>
-      </div>
-    </section>
-
-    <section class="card vc">
-      <div class="card-head">
-        <h2 data-i18n="c.daily"></h2>
-        <div class="legend" aria-hidden="true">
-          <span><i class="sw" data-co="BFT"></i>BFT</span><span><i class="sw" data-co="EDV"></i>EDV</span>
+    <section class="card mcard">
+      <div class="mcard-head">
+        <div>
+          <h2 data-i18n="m.title"></h2>
+          <p class="hint" data-i18n="m.hint"></p>
+        </div>
+        <div class="mtotal">
+          <p class="mtotal-label" data-i18n="kpi.qty"></p>
+          <p class="mtotal-value" id="kQty">–</p>
+          <p class="kpi-note" id="kQtyNote"></p>
         </div>
       </div>
-      <div id="dailyChart" class="vbars"></div>
-    </section>
-
-    <section class="charts vgrid">
-      <div class="card">
-        <div class="card-head">
-          <h2 data-i18n="c.loc"></h2>
-          <p class="hint" data-i18n="c.locHint"></p>
-        </div>
-        <div id="locChart" class="bars"></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h2 data-i18n="c.model"></h2>
-          <p class="hint" data-i18n="c.modelHint"></p>
-        </div>
-        <div id="modelChart" class="bars compact"></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h2 data-i18n="c.size"></h2>
-          <div class="legend" aria-hidden="true">
-            <span><i class="sw" data-co="BFT"></i>BFT</span><span><i class="sw" data-co="EDV"></i>EDV</span>
-          </div>
-        </div>
-        <div id="sizeChart" class="vbars short"></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h2 data-i18n="c.color"></h2>
-        </div>
-        <div id="colorChart" class="bars compact"></div>
-      </div>
+      <div id="modelList" class="mlist"></div>
     </section>
 
     <section class="card">
       <div class="card-head">
-        <h2><span data-i18n="t.title"></span> <span class="count" id="tCount"></span></h2>
+        <h2><span data-i18n="t.title"></span><span id="tTitleModel"></span> <span class="count" id="tCount"></span></h2>
         <div class="head-actions">
           <button id="copyTable" class="ghost small" type="button" data-i18n="copy"></button>
           <button id="dlCsv" class="ghost small" type="button" data-i18n="csv"></button>
@@ -153,7 +103,6 @@
 
     <footer class="foot" id="foot"></footer>
   </div>
-  <div id="tip" class="tip" role="tooltip" hidden></div>
   <script src="vivo.js?v=20261001"></script>
 </body>
 </html>
