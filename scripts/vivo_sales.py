@@ -12,7 +12,8 @@ Vivo 販売ダッシュボード (src/vivo.html → site/index.html) が読む�
 集計ルール:
   - Category が Vivo の明細行のみ
   - 取消 (Voided) は除外。Pending は含め、ダッシュボードで除外できるように状態を残す
-  - 販売場所 = Warehouse/Branch。会社ごとに別の場所として扱う (BFT の Event 1 と EDV の Event 1 は別のイベント)
+  - 販売場所 = Warehouse/Branch。会社ごとに別の場所として扱い、LOC_NAMES の名前を付ける
+      (EDV の Kvillage → K Village、EDV の Event 1 → K Village PopUp、BFT の Event 1 → Terminal21 Asok)
       Event で始まる → イベント / 空欄・Online・คลังสินค้าหลัก (本社倉庫) → オンライン・その他 / それ以外 → 店舗
   - モデル・カラー・サイズは商品名「Vivo <モデル>(<サイズ>, <カラー>)」から取る
     (商品コードの番号は BFT と EDV で別のモデルを指すことがあるため使わない。表記ゆれは大文字小文字をそろえる)
@@ -33,6 +34,13 @@ UPPER = {"ii", "iii", "iv", "fg", "ii", "v"}
 SIZE_RE = re.compile(r"^[MW]\d+(?:\.\d+)?$")
 ONLINE = {"", "online", "คลังสินค้าหลัก"}
 WH_LABEL = {"Kvillage": "K Village", "คลังสินค้าหลัก": "Main warehouse"}
+# 会社 + Warehouse/Branch → 画面に出す販売場所の名前。
+# Event 1 / Event 2 は会社ごと・時期ごとに別の会場なので、新しいイベントの明細を取り込むときはここを更新する。
+LOC_NAMES = {
+    ("EDV", "Kvillage"): "K Village",
+    ("EDV", "Event 1"): "K Village PopUp",
+    ("BFT", "Event 1"): "Terminal21 Asok",
+}
 
 
 def title(s):
@@ -93,7 +101,7 @@ def read(path, company, locs, out):
         lid = f"{company}:{wh}"
         if lid not in locs:
             locs[lid] = {"id": lid, "company": company, "type": loc_type(wh), "wh": wh,
-                         "name": WH_LABEL.get(wh, wh)}
+                         "name": LOC_NAMES.get((company, wh), WH_LABEL.get(wh, wh))}
         d = datetime.datetime.strptime(str(r[ix["Date"]]).strip(), "%d/%m/%Y").date().isoformat()
         model, color, size = parse_name(str(r[ix["Product name"]] or ""))
         out.append([d, lid, str(r[ix["Sales order No."]] or ""), model, color, size,
@@ -110,20 +118,22 @@ def main():
     read(sys.argv[1], "BFT", locs, lines)
     read(sys.argv[2], "EDV", locs, lines)
     lines.sort()
-    order = {"store": 0, "event": 1, "online": 2}
+    rank = {k: i for i, k in enumerate(LOC_NAMES)}
     data = {
         "generated": datetime.datetime.now().isoformat(timespec="seconds"),
         "sources": {"BFT": Path(sys.argv[1]).name, "EDV": Path(sys.argv[2]).name},
         "from": lines[0][0],
         "to": lines[-1][0],
-        "locations": sorted(locs.values(), key=lambda l: (l["company"], order[l["type"]], l["name"])),
+        # LOC_NAMES に書いた順 → その他の場所 → オンライン・その他
+        "locations": sorted(locs.values(), key=lambda l: (
+            l["type"] == "online", rank.get((l["company"], l["wh"]), len(rank)), l["company"], l["name"])),
         "fields": ["date", "loc", "order", "model", "color", "size", "qty", "amount", "status"],
         "lines": lines,
     }
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     for l in data["locations"]:
         q = sum(x[6] for x in lines if x[1] == l["id"])
-        print(f"  {l['company']} {l['type']:6} {l['name'] or '(空欄)'}: {q} 足")
+        print(f"  {l['company']} {l['type']:6} {l['wh'] or '(空欄)'} → {l['name'] or 'オンライン・その他'}: {q} 足")
     print(f"合計 {sum(x[6] for x in lines)} 足 ({data['from']} 〜 {data['to']}) → {OUT.relative_to(ROOT)}")
 
 

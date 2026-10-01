@@ -39,14 +39,9 @@
             <button type="button" data-v="EDV"><i class="sw" data-co="EDV"></i>EDV</button>
           </div>
         </div>
-        <div class="vf-group">
-          <span class="vf-label" data-i18n="f.type"></span>
-          <div class="seg" id="segType">
-            <button type="button" data-v="" data-i18n="all"></button>
-            <button type="button" data-v="store" data-i18n="type.store"></button>
-            <button type="button" data-v="event" data-i18n="type.event"></button>
-            <button type="button" data-v="online" data-i18n="type.online"></button>
-          </div>
+        <div class="vf-group vf-locs">
+          <span class="vf-label"><span data-i18n="f.loc"></span> <span class="hint" data-i18n="f.locHint"></span></span>
+          <div class="loc-chips" id="locChips"></div>
         </div>
         <label class="vf-group">
           <span class="vf-label" data-i18n="f.from"></span>
@@ -62,10 +57,6 @@
         </label>
         <label class="check-toggle"><input type="checkbox" id="incPending" checked> <span data-i18n="f.pending"></span></label>
         <button id="reset" class="ghost" type="button" data-i18n="reset"></button>
-      </div>
-      <div class="vf-group vf-locs">
-        <span class="vf-label"><span data-i18n="f.loc"></span> <span class="hint" data-i18n="f.locHint"></span></span>
-        <div class="loc-chips" id="locChips"></div>
       </div>
     </section>
 

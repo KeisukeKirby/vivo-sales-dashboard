@@ -3,8 +3,7 @@
 BFT と EDV の POS 受注明細から作る、Vivo の販売実績ダッシュボードです。Vercel が `site/index.html` を配信します（ビルド不要）。
 
 - **モデル別の販売数量**（多い順。BFT / EDV の内訳・構成比つき）と合計の販売数量
-- **会社**（すべて / BFT / EDV）、**販売場所の種類**（店舗 / イベント / オンライン・その他）、**販売場所**（複数選択）、期間、モデルで絞り込み
-- BFT のイベントと EDV のイベントは、同じ「Event 1」でも別の販売場所として扱う
+- **会社**（すべて / BFT / EDV）、**販売場所**（K Village / K Village PopUp / Terminal21 Asok / オンライン・その他、複数選択可）、期間、モデルで絞り込み
 - モデルの行をクリックすると、そのモデルのカラー・サイズ別 × 販売場所の明細を表示（「表をコピー」で Excel に貼り付け）
 - 日本語 / English / ไทย、ライト / ダーク表示
 
@@ -35,7 +34,9 @@ vercel.json            # Output Directory: site
 ## 集計ルール
 
 - Category が Vivo の明細行のみ。取消 (Voided) は除外、Pending は含む（画面のチェックで除外可）
-- 販売場所 = Warehouse/Branch（Event〜 → イベント、空欄・Online・本社倉庫 → オンライン・その他、それ以外 → 店舗）
+- 販売場所 = 会社 + Warehouse/Branch。名前は `scripts/vivo_sales.py` の `LOC_NAMES` で付ける
+  （EDV の Kvillage → K Village、EDV の Event 1 → K Village PopUp、BFT の Event 1 → Terminal21 Asok、倉庫が空欄 → オンライン・その他）。
+  Event 1 / Event 2 は時期によって別の会場になるので、新しいイベントの明細を取り込むときは `LOC_NAMES` を更新する
 - モデル・カラー・サイズは商品名から判定（商品コードの番号は BFT と EDV で別のモデルを指すことがあるため使わない）
 - 金額 = 明細の Total amount（明細値引き後、注文全体の値引きは含まない）
 - `src/vivo.json` と `site/index.html` には顧客情報を含めない

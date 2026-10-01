@@ -17,21 +17,16 @@
       "theme.auto": "自動", "theme.light": "ライト", "theme.dark": "ダーク",
       "f.aria": "絞り込み",
       "f.company": "会社",
-      "f.type": "販売場所の種類",
       "f.from": "開始日",
       "f.to": "終了日",
       "f.model": "モデル",
       "f.pending": "保留中 (Pending) の注文を含む",
       "f.loc": "販売場所",
-      "f.locHint": "（クリックで選択・複数可。数字は販売数量）",
+      "f.locHint": "（複数選択可・数字は足数）",
       all: "すべて",
       "all.models": "すべてのモデル",
       "all.locs": "すべての場所",
       reset: "条件をリセット",
-      "type.store": "店舗",
-      "type.event": "イベント",
-      "type.online": "オンライン・その他",
-      "loc.event": "イベント ({w})",
       "loc.online": "オンライン・その他 (LINE 等)",
       "kpi.qty": "販売数量（足）",
       "m.title": "モデル別の販売数量",
@@ -51,7 +46,7 @@
       pairs: "{n} 足",
       period: "期間: {f} 〜 {t}",
       src: "元データ: BFT {b} / EDV {e}",
-      foot: "受注明細の Category が Vivo の行を集計（取消 Voided は除外）。BFT と EDV のイベント（Event 1）は別のイベントとして扱います。モデル・カラー・サイズは商品名から判定しています。データ作成: {d}",
+      foot: "受注明細の Category が Vivo の行を集計（取消 Voided は除外）。販売場所は EDV の Kvillage = K Village、EDV の Event 1 = K Village PopUp、BFT の Event 1 = Terminal21 Asok、倉庫が空欄の注文（LINE 等）= オンライン・その他。モデル・カラー・サイズは商品名から判定しています。データ作成: {d}",
     },
     en: {
       "doc.title": "Vivo Sales Dashboard",
@@ -63,21 +58,16 @@
       "theme.auto": "Auto", "theme.light": "Light", "theme.dark": "Dark",
       "f.aria": "Filters",
       "f.company": "Company",
-      "f.type": "Location type",
       "f.from": "From",
       "f.to": "To",
       "f.model": "Model",
       "f.pending": "Include pending orders",
       "f.loc": "Sales location",
-      "f.locHint": "(click to select, multiple allowed; numbers are pairs sold)",
+      "f.locHint": "(multiple allowed; numbers are pairs)",
       all: "All",
       "all.models": "All models",
       "all.locs": "All locations",
       reset: "Reset filters",
-      "type.store": "Store",
-      "type.event": "Event",
-      "type.online": "Online / other",
-      "loc.event": "Event ({w})",
       "loc.online": "Online / other (LINE etc.)",
       "kpi.qty": "Pairs sold",
       "m.title": "Pairs sold by model",
@@ -97,7 +87,7 @@
       pairs: "{n} pairs",
       period: "Period: {f} – {t}",
       src: "Source: BFT {b} / EDV {e}",
-      foot: "Order-detail lines with Category = Vivo (voided orders excluded). BFT and EDV events (Event 1) are treated as separate events. Model, colour and size are read from the product name. Generated: {d}",
+      foot: "Order-detail lines with Category = Vivo (voided orders excluded). Locations: EDV Kvillage = K Village, EDV Event 1 = K Village PopUp, BFT Event 1 = Terminal21 Asok, orders with no branch (LINE etc.) = Online / other. Model, colour and size are read from the product name. Generated: {d}",
     },
     th: {
       "doc.title": "แดชบอร์ดยอดขาย Vivo",
@@ -109,21 +99,16 @@
       "theme.auto": "อัตโนมัติ", "theme.light": "สว่าง", "theme.dark": "มืด",
       "f.aria": "ตัวกรอง",
       "f.company": "บริษัท",
-      "f.type": "ประเภทจุดขาย",
       "f.from": "ตั้งแต่",
       "f.to": "ถึง",
       "f.model": "รุ่น",
       "f.pending": "รวมคำสั่งซื้อที่รอดำเนินการ (Pending)",
       "f.loc": "จุดขาย",
-      "f.locHint": "(คลิกเพื่อเลือก เลือกได้หลายจุด ตัวเลขคือจำนวนคู่ที่ขาย)",
+      "f.locHint": "(เลือกได้หลายจุด ตัวเลขคือจำนวนคู่)",
       all: "ทั้งหมด",
       "all.models": "ทุกรุ่น",
       "all.locs": "ทุกจุดขาย",
       reset: "ล้างตัวกรอง",
-      "type.store": "สาขา",
-      "type.event": "อีเวนต์",
-      "type.online": "ออนไลน์ / อื่นๆ",
-      "loc.event": "อีเวนต์ ({w})",
       "loc.online": "ออนไลน์ / อื่นๆ (LINE ฯลฯ)",
       "kpi.qty": "จำนวนที่ขาย (คู่)",
       "m.title": "จำนวนที่ขายตามรุ่น",
@@ -143,7 +128,7 @@
       pairs: "{n} คู่",
       period: "ช่วงเวลา: {f} – {t}",
       src: "ข้อมูล: BFT {b} / EDV {e}",
-      foot: "รวมรายการที่ Category = Vivo จากรายละเอียดคำสั่งซื้อ (ไม่รวมรายการที่ยกเลิก Voided) อีเวนต์ของ BFT และ EDV (Event 1) นับเป็นคนละอีเวนต์ รุ่น สี และไซซ์อ่านจากชื่อสินค้า สร้างข้อมูล: {d}",
+      foot: "รวมรายการที่ Category = Vivo จากรายละเอียดคำสั่งซื้อ (ไม่รวมรายการที่ยกเลิก Voided) จุดขาย: EDV Kvillage = K Village, EDV Event 1 = K Village PopUp, BFT Event 1 = Terminal21 Asok, คำสั่งซื้อที่ไม่มีสาขา (LINE ฯลฯ) = ออนไลน์ / อื่นๆ รุ่น สี และไซซ์อ่านจากชื่อสินค้า สร้างข้อมูล: {d}",
     },
   };
   const LOCALE = { ja: "ja-JP", en: "en-GB", th: "th-TH" };
@@ -192,10 +177,10 @@
   let data = null;
   let LOC = {};          // id -> location
   let lines = [];        // {date, loc, co, type, order, model, color, size, qty, amount, pending}
-  const state = { company: "", type: "", locs: new Set(), from: "", to: "", model: "", pending: true };
+  const state = { company: "", locs: new Set(), from: "", to: "", model: "", pending: true };
   let sort = { key: "total", dir: -1 };
 
-  const locName = (l) => (l.type === "event" ? t("loc.event", { w: l.wh }) : l.type === "online" && !l.name ? t("loc.online") : l.name);
+  const locName = (l) => (l.type === "online" && !l.name ? t("loc.online") : l.name);
   const locLabelHtml = (l) => `<span class="co">${l.company}</span>${esc(locName(l))}`;
   const locLabelText = (l) => `${l.company} ${locName(l)}`;
   const sizeKey = (s) => { const m = /^([A-Z]+)(\d+(?:\.\d+)?)$/.exec(s); return m ? [m[1], +m[2]] : [s, 0]; };
@@ -206,7 +191,7 @@
   };
 
   // 場所の候補 (会社・種類で絞ったもの)
-  const availLocs = () => data.locations.filter((l) => (!state.company || l.company === state.company) && (!state.type || l.type === state.type));
+  const availLocs = () => data.locations.filter((l) => (!state.company || l.company === state.company));
   const activeLocIds = () => {
     const av = availLocs().map((l) => l.id);
     const sel = av.filter((id) => state.locs.has(id));
@@ -222,10 +207,6 @@
     const b = e.target.closest("button"); if (!b) return;
     state.company = b.dataset.v; render();
   });
-  $("segType").addEventListener("click", (e) => {
-    const b = e.target.closest("button"); if (!b) return;
-    state.type = b.dataset.v; render();
-  });
   $("locChips").addEventListener("click", (e) => {
     const b = e.target.closest("button"); if (!b) return;
     if (b.dataset.id === "") state.locs.clear();
@@ -238,7 +219,7 @@
   $("fModel").addEventListener("change", (e) => { state.model = e.target.value; render(); });
   $("incPending").addEventListener("change", (e) => { state.pending = e.target.checked; render(); });
   $("reset").addEventListener("click", () => {
-    Object.assign(state, { company: "", type: "", from: data.from, to: data.to, model: "", pending: true });
+    Object.assign(state, { company: "", from: data.from, to: data.to, model: "", pending: true });
     state.locs.clear();
     $("dFrom").value = data.from; $("dTo").value = data.to; $("incPending").checked = true;
     render();
@@ -258,7 +239,7 @@
     $("locChips").innerHTML =
       `<button type="button" class="loc-chip all" data-id="" aria-pressed="${!anySel}">${esc(t("all.locs"))}</button>` +
       av.map((l) => `<button type="button" class="loc-chip" data-id="${esc(l.id)}" aria-pressed="${state.locs.has(l.id)}">` +
-        `<i class="sw" data-co="${l.company}"></i>${locLabelHtml(l)}<span class="n">${fmt(qty[l.id] || 0)}</span></button>`).join("");
+        `<i class="sw" data-co="${l.company}" title="${l.company}"></i>${esc(locName(l))}<span class="n">${fmt(qty[l.id] || 0)}</span></button>`).join("");
   }
 
   /* ---------- モデル別の販売数量 (このダッシュボードの主役) ---------- */
@@ -299,7 +280,6 @@
   let current = [];
   function render() {
     syncSeg("segCompany", state.company);
-    syncSeg("segType", state.type);
     renderLocChips();
     const locIds = activeLocIds();
     const base = lines.filter((r) => (state.pending || !r.pending) && (!state.from || r.date >= state.from) && (!state.to || r.date <= state.to) && locIds.has(r.loc));
