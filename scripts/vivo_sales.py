@@ -11,7 +11,7 @@ Vivo 販売ダッシュボード (src/vivo.html → site/index.html) が読む�
 
 集計ルール:
   - Category が Vivo の明細行のみ
-  - 取消 (Voided) は除外。Pending は含め、ダッシュボードで除外できるように状態を残す
+  - 支払い状態 (Payment status) が Paid の行のみ (Status が Pending でも Paid なら実績に含める)。取消 (Voided) は除外
   - 販売場所 = Warehouse/Branch。会社ごとに別の場所として扱い、LOC_NAMES の名前を付ける
       (EDV の Kvillage → K Village、EDV の Event 1 → K Village PopUp、BFT の Event 1 → Terminal21 Asok)
       Event で始まる → イベント / 空欄・Online・คลังสินค้าหลัก (本社倉庫) → オンライン・その他 / それ以外 → 店舗
@@ -89,13 +89,16 @@ def read(path, company, locs, out):
     next(rows)  # 1 行目はグループ見出し (Orders / Payments / Product data)
     head = next(rows)
     ix = {h: i for i, h in enumerate(head) if h}
-    n = skipped = 0
+    n = voided = unpaid = 0
     for r in rows:
         if (r[ix["Category"]] or "") != "Vivo":
             continue
         status = r[ix["Status"]] or ""
         if status == "Voided":
-            skipped += 1
+            voided += 1
+            continue
+        if (r[ix["Payment status"]] or "") != "Paid":
+            unpaid += 1
             continue
         wh = (r[ix["Warehouse/Branch"]] or "").strip()
         lid = f"{company}:{wh}"
@@ -105,10 +108,9 @@ def read(path, company, locs, out):
         d = datetime.datetime.strptime(str(r[ix["Date"]]).strip(), "%d/%m/%Y").date().isoformat()
         model, color, size = parse_name(str(r[ix["Product name"]] or ""))
         out.append([d, lid, str(r[ix["Sales order No."]] or ""), model, color, size,
-                    int(num(r[ix["Quantity"]])), round(num(r[ix["Total amount"]]), 2),
-                    "pending" if status == "Pending" else ""])
+                    int(num(r[ix["Quantity"]])), round(num(r[ix["Total amount"]]), 2)])
         n += 1
-    print(f"{company}: {n} 行 (取消 {skipped} 行を除外) ← {Path(path).name}")
+    print(f"{company}: {n} 行 (取消 {voided} 行・未払い {unpaid} 行を除外) ← {Path(path).name}")
 
 
 def main():
@@ -127,7 +129,7 @@ def main():
         # LOC_NAMES に書いた順 → その他の場所 → オンライン・その他
         "locations": sorted(locs.values(), key=lambda l: (
             l["type"] == "online", rank.get((l["company"], l["wh"]), len(rank)), l["company"], l["name"])),
-        "fields": ["date", "loc", "order", "model", "color", "size", "qty", "amount", "status"],
+        "fields": ["date", "loc", "order", "model", "color", "size", "qty", "amount"],
         "lines": lines,
     }
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

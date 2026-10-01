@@ -23,7 +23,6 @@
       "f.from": "開始日",
       "f.to": "終了日",
       "f.model": "モデル",
-      "f.pending": "保留中 (Pending) の注文を含む",
       "f.loc": "販売場所",
       "f.locHint": "（複数選択可・数字は足数）",
       all: "すべて",
@@ -50,7 +49,7 @@
       pairs: "{n} 足",
       period: "期間: {f} 〜 {t}",
       src: "元データ: BFT {b} / EDV {e}",
-      foot: "受注明細の Category が Vivo の行を集計（取消 Voided は除外）。販売場所は EDV の Kvillage = K Village、EDV の Event 1 = K Village PopUp、BFT の Event 1 = Terminal21 Asok、倉庫が空欄の注文（LINE 等）= オンライン・その他。モデル・カラー・サイズは商品名から判定しています。データ作成: {d}",
+      foot: "受注明細の Category が Vivo で、支払い状態が Paid の行を集計（Pending でも Paid なら含む。取消 Voided は除外）。販売場所は EDV の Kvillage = K Village、EDV の Event 1 = K Village PopUp、BFT の Event 1 = Terminal21 Asok、倉庫が空欄の注文（LINE 等）= オンライン・その他。モデル・カラー・サイズは商品名から判定しています。データ作成: {d}",
     },
     en: {
       "doc.title": "Vivo Sales Dashboard",
@@ -65,7 +64,6 @@
       "f.from": "From",
       "f.to": "To",
       "f.model": "Model",
-      "f.pending": "Include pending orders",
       "f.loc": "Sales location",
       "f.locHint": "(multiple allowed; numbers are pairs)",
       all: "All",
@@ -92,7 +90,7 @@
       pairs: "{n} pairs",
       period: "Period: {f} – {t}",
       src: "Source: BFT {b} / EDV {e}",
-      foot: "Order-detail lines with Category = Vivo (voided orders excluded). Locations: EDV Kvillage = K Village, EDV Event 1 = K Village PopUp, BFT Event 1 = Terminal21 Asok, orders with no branch (LINE etc.) = Online / other. Model, colour and size are read from the product name. Generated: {d}",
+      foot: "Order-detail lines with Category = Vivo and payment status Paid (pending orders count once paid; voided orders excluded). Locations: EDV Kvillage = K Village, EDV Event 1 = K Village PopUp, BFT Event 1 = Terminal21 Asok, orders with no branch (LINE etc.) = Online / other. Model, colour and size are read from the product name. Generated: {d}",
     },
     th: {
       "doc.title": "แดชบอร์ดยอดขาย Vivo",
@@ -107,7 +105,6 @@
       "f.from": "ตั้งแต่",
       "f.to": "ถึง",
       "f.model": "รุ่น",
-      "f.pending": "รวมคำสั่งซื้อที่รอดำเนินการ (Pending)",
       "f.loc": "จุดขาย",
       "f.locHint": "(เลือกได้หลายจุด ตัวเลขคือจำนวนคู่)",
       all: "ทั้งหมด",
@@ -134,7 +131,7 @@
       pairs: "{n} คู่",
       period: "ช่วงเวลา: {f} – {t}",
       src: "ข้อมูล: BFT {b} / EDV {e}",
-      foot: "รวมรายการที่ Category = Vivo จากรายละเอียดคำสั่งซื้อ (ไม่รวมรายการที่ยกเลิก Voided) จุดขาย: EDV Kvillage = K Village, EDV Event 1 = K Village PopUp, BFT Event 1 = Terminal21 Asok, คำสั่งซื้อที่ไม่มีสาขา (LINE ฯลฯ) = ออนไลน์ / อื่นๆ รุ่น สี และไซซ์อ่านจากชื่อสินค้า สร้างข้อมูล: {d}",
+      foot: "รวมรายการที่ Category = Vivo และสถานะการชำระเงินเป็น Paid จากรายละเอียดคำสั่งซื้อ (Pending ที่ชำระแล้วนับรวม ไม่รวมรายการที่ยกเลิก Voided) จุดขาย: EDV Kvillage = K Village, EDV Event 1 = K Village PopUp, BFT Event 1 = Terminal21 Asok, คำสั่งซื้อที่ไม่มีสาขา (LINE ฯลฯ) = ออนไลน์ / อื่นๆ รุ่น สี และไซซ์อ่านจากชื่อสินค้า สร้างข้อมูล: {d}",
     },
   };
   const LOCALE = { ja: "ja-JP", en: "en-GB", th: "th-TH" };
@@ -182,8 +179,8 @@
   /* ---------- データ ---------- */
   let data = null;
   let LOC = {};          // id -> location
-  let lines = [];        // {date, loc, co, type, order, model, color, size, qty, amount, pending}
-  const state = { company: "", locs: new Set(), from: "", to: "", model: "", pending: true };
+  let lines = [];        // {date, loc, co, type, order, model, color, size, qty, amount}
+  const state = { company: "", locs: new Set(), from: "", to: "", model: "" };
   let sort = { key: "total", dir: -1 };
   const openModels = new Set();  // 内訳を開いているモデル
 
@@ -207,7 +204,7 @@
   };
 
   // loc 以外の条件
-  const passBase = (r) => (state.pending || !r.pending) && (!state.from || r.date >= state.from) && (!state.to || r.date <= state.to) && (!state.model || r.model === state.model);
+  const passBase = (r) => (!state.from || r.date >= state.from) && (!state.to || r.date <= state.to) && (!state.model || r.model === state.model);
 
   /* ---------- フィルター UI ---------- */
   function syncSeg(id, v) { $(id).querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === v)); }
@@ -225,11 +222,10 @@
   $("dFrom").addEventListener("change", (e) => { state.from = e.target.value; render(); });
   $("dTo").addEventListener("change", (e) => { state.to = e.target.value; render(); });
   $("fModel").addEventListener("change", (e) => { state.model = e.target.value; render(); });
-  $("incPending").addEventListener("change", (e) => { state.pending = e.target.checked; render(); });
   $("reset").addEventListener("click", () => {
-    Object.assign(state, { company: "", from: data.from, to: data.to, model: "", pending: true });
+    Object.assign(state, { company: "", from: data.from, to: data.to, model: "" });
     state.locs.clear();
-    $("dFrom").value = data.from; $("dTo").value = data.to; $("incPending").checked = true;
+    $("dFrom").value = data.from; $("dTo").value = data.to;
     render();
   });
 
@@ -314,7 +310,7 @@
     syncSeg("segCompany", state.company);
     renderLocChips();
     const locIds = activeLocIds();
-    const base = lines.filter((r) => (state.pending || !r.pending) && (!state.from || r.date >= state.from) && (!state.to || r.date <= state.to) && locIds.has(r.loc));
+    const base = lines.filter((r) => (!state.from || r.date >= state.from) && (!state.to || r.date <= state.to) && locIds.has(r.loc));
     const rows = base.filter((r) => !state.model || r.model === state.model);
     current = rows;
 
@@ -424,7 +420,7 @@
       lines = d.lines.map((x) => {
         const l = LOC[x[ix.loc]];
         return { date: x[ix.date], loc: l.id, co: l.company, type: l.type, order: x[ix.order], model: x[ix.model], color: x[ix.color],
-          size: x[ix.size], qty: x[ix.qty], amount: x[ix.amount], pending: x[ix.status] === "pending" };
+          size: x[ix.size], qty: x[ix.qty], amount: x[ix.amount] };
       });
       state.from = d.from; state.to = d.to;
       $("dFrom").value = d.from; $("dTo").value = d.to;

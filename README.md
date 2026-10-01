@@ -34,7 +34,7 @@ vercel.json            # Output Directory: site
 
 ## 集計ルール
 
-- Category が Vivo の明細行のみ。取消 (Voided) は除外、Pending は含む（画面のチェックで除外可）
+- Category が Vivo の明細行のうち、支払い状態 (Payment status) が Paid のもの。Status が Pending でも Paid なら実績に含める。取消 (Voided) は除外
 - 販売場所 = 会社 + Warehouse/Branch。名前は `scripts/vivo_sales.py` の `LOC_NAMES` で付ける
   （EDV の Kvillage → K Village、EDV の Event 1 → K Village PopUp、BFT の Event 1 → Terminal21 Asok、倉庫が空欄 → オンライン・その他）。
   Event 1 / Event 2 は時期によって別の会場になるので、新しいイベントの明細を取り込むときは `LOC_NAMES` を更新する
