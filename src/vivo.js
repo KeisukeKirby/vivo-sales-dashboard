@@ -30,7 +30,7 @@
       "loc.online": "オンライン・その他 (LINE 等)",
       "kpi.qty": "販売数量（足）",
       "m.title": "モデル別の販売数量",
-      "m.hint": "行をクリックすると、そのモデルのカラー・サイズ別の明細を下に表示",
+      "m.hint": "モデル名をクリックすると、カラー × サイズの内訳を表示",
       "m.pairs": "足数",
       "m.share": "構成比",
       "m.models": "{n} モデル",
@@ -71,7 +71,7 @@
       "loc.online": "Online / other (LINE etc.)",
       "kpi.qty": "Pairs sold",
       "m.title": "Pairs sold by model",
-      "m.hint": "Click a row to see that model by colour and size below",
+      "m.hint": "Click a model to see its pairs by colour and size",
       "m.pairs": "Pairs",
       "m.share": "Share",
       "m.models": "{n} models",
@@ -112,7 +112,7 @@
       "loc.online": "ออนไลน์ / อื่นๆ (LINE ฯลฯ)",
       "kpi.qty": "จำนวนที่ขาย (คู่)",
       "m.title": "จำนวนที่ขายตามรุ่น",
-      "m.hint": "คลิกที่แถวเพื่อดูรายละเอียดสีและไซซ์ของรุ่นนั้นด้านล่าง",
+      "m.hint": "คลิกที่รุ่นเพื่อดูจำนวนตามสีและไซซ์",
       "m.pairs": "คู่",
       "m.share": "สัดส่วน",
       "m.models": "{n} รุ่น",
@@ -179,6 +179,7 @@
   let lines = [];        // {date, loc, co, type, order, model, color, size, qty, amount, pending}
   const state = { company: "", locs: new Set(), from: "", to: "", model: "", pending: true };
   let sort = { key: "total", dir: -1 };
+  const openModels = new Set();  // 内訳を開いているモデル
 
   const locName = (l) => (l.type === "online" && !l.name ? t("loc.online") : l.name);
   const locLabelHtml = (l) => `<span class="co">${l.company}</span>${esc(locName(l))}`;
@@ -263,17 +264,40 @@
     $("modelList").innerHTML = head + list.map((g, i) => {
       const segs = (cos.length ? COS : [state.company]).filter((c) => g[c] > 0)
         .map((c) => `<span class="mfill" data-co="${c}" style="width:${(g[c] / max) * 100}%"></span>`).join("");
-      return `<button type="button" class="mrow${state.model === g.model ? " active" : ""}" data-model="${esc(g.model)}">` +
-        `<span class="mrank">${i + 1}</span><span class="mname">${esc(g.model)}</span>` +
+      const open = openModels.has(g.model);
+      return `<button type="button" class="mrow${open ? " open" : ""}${state.model === g.model ? " active" : ""}" data-model="${esc(g.model)}" aria-expanded="${open}">` +
+        `<span class="mrank">${i + 1}</span><span class="mname"><span class="mchev" aria-hidden="true"></span>${esc(g.model)}</span>` +
         `<span class="mbar">${segs}</span>` +
         cos.map((c) => `<span class="mnum co-n">${g[c] ? fmt(g[c]) : "-"}</span>`).join("") +
-        `<span class="mnum mqty">${fmt(g.qty)}</span><span class="mnum mshare">${Math.round((g.qty / total) * 100)}%</span></button>`;
+        `<span class="mnum mqty">${fmt(g.qty)}</span><span class="mnum mshare">${Math.round((g.qty / total) * 100)}%</span></button>` +
+        (open ? modelDetail(rows.filter((r) => r.model === g.model)) : "");
     }).join("");
     $("modelList").querySelectorAll(".mrow[data-model]").forEach((b) => b.addEventListener("click", () => {
-      state.model = state.model === b.dataset.model ? "" : b.dataset.model;
-      $("fModel").value = state.model;
-      render();
+      const k = b.dataset.model;
+      if (openModels.has(k)) openModels.delete(k); else openModels.add(k);
+      renderModels(rows);
     }));
+  }
+
+  // モデルの内訳: カラー × サイズの足数 (行の合計 = カラー別、列の合計 = サイズ別)
+  function modelDetail(rows) {
+    const colors = new Map(), sizes = new Map(), cell = new Map();
+    rows.forEach((r) => {
+      const c = r.color || "-", z = r.size || "-";
+      colors.set(c, (colors.get(c) || 0) + r.qty);
+      sizes.set(z, (sizes.get(z) || 0) + r.qty);
+      cell.set(`${c}\t${z}`, (cell.get(`${c}\t${z}`) || 0) + r.qty);
+    });
+    const cs = [...colors.keys()].sort((a, b) => colors.get(b) - colors.get(a) || a.localeCompare(b));
+    const zs = [...sizes.keys()].sort(bySize);
+    const total = rows.reduce((s, r) => s + r.qty, 0);
+    const max = Math.max(...cell.values());
+    const td = (v) => (v ? `<td class="num" style="--h:${Math.round((v / max) * 100)}%">${fmt(v)}</td>` : `<td class="num zero"></td>`);
+    return `<div class="mdetail"><div class="mmatrix-wrap"><table class="mmatrix">` +
+      `<thead><tr><th>${esc(t("t.color"))} / ${esc(t("t.size"))}</th>${zs.map((z) => `<th class="num">${esc(z)}</th>`).join("")}<th class="num">${esc(t("t.total"))}</th></tr></thead>` +
+      `<tbody>${cs.map((c) => `<tr><th>${esc(c)}</th>${zs.map((z) => td(cell.get(`${c}\t${z}`) || 0)).join("")}<td class="num tot">${fmt(colors.get(c))}</td></tr>`).join("")}</tbody>` +
+      `<tfoot><tr><th>${esc(t("t.total"))}</th>${zs.map((z) => `<td class="num">${fmt(sizes.get(z))}</td>`).join("")}<td class="num tot">${fmt(total)}</td></tr></tfoot>` +
+      `</table></div></div>`;
   }
 
   /* ---------- 描画 ---------- */

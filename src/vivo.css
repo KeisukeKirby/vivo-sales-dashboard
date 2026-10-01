@@ -63,6 +63,26 @@
 .mrow.active { background: var(--accent-soft); }
 .mrow.mhead { cursor: default; font-size: 12px; color: var(--muted); padding-top: 0; border-bottom-color: var(--line-strong); }
 .mrow.mhead:hover { background: none; }
+.mchev { display: inline-block; width: 0; height: 0; margin-right: 8px; vertical-align: 2px;
+  border-left: 5px solid var(--muted); border-top: 4px solid transparent; border-bottom: 4px solid transparent; transition: transform .15s; }
+.mrow.open .mchev { transform: rotate(90deg); border-left-color: var(--accent); }
+.mrow.open { background: var(--accent-soft); border-bottom-color: transparent; }
+@media (prefers-reduced-motion: reduce) { .mchev { transition: none; } }
+
+/* モデルの内訳 (カラー × サイズ) */
+.mdetail { padding: 4px 8px 14px 44px; border-bottom: 1px solid var(--line); background: var(--accent-soft); }
+.mmatrix-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.mmatrix { border-collapse: collapse; font-size: 13px; min-width: 100%; }
+.mmatrix th, .mmatrix td { padding: 6px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; text-align: left; }
+.mmatrix thead th { font-size: 12px; color: var(--ink-2); font-weight: 600; background: var(--surface-2); }
+.mmatrix tbody th { font-weight: 600; }
+.mmatrix .num { text-align: right; font-variant-numeric: tabular-nums; }
+.mmatrix tbody td.num:not(.tot):not(.zero) { background: color-mix(in srgb, var(--accent) calc(var(--h) * .35), transparent); }
+.mmatrix .tot { font-weight: 700; }
+.mmatrix tr > th:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); }
+.mmatrix thead tr > th:first-child, .mmatrix tfoot tr > th:first-child { background: var(--surface-2); }
+.mmatrix tfoot th, .mmatrix tfoot td { font-weight: 700; background: var(--surface-2); border-bottom: 0; }
+
 .mrank { color: var(--muted); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
 .mname { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
 .mbar { display: flex; gap: 2px; height: 16px; min-width: 0; }
@@ -105,5 +125,6 @@
   .mshare { display: none; }
   .mqty { font-size: 15px; }
   .mname { font-size: 13px; }
+  .mdetail { padding: 4px 4px 12px; }
   .mrow { gap: 4px 8px; padding: 8px 4px; }
 }
