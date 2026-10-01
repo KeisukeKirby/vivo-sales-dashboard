@@ -4,6 +4,9 @@
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const fmt = (n) => Math.round(n).toLocaleString("en-US");
   const COS = ["BFT", "EDV"];
+  // 販売場所の色 (vivo.json の locations の順に --s1, --s2, ...)
+  let SLOT = {};
+  const sw = (id) => `<i class="sw" style="background:var(--s${(SLOT[id] ?? 0) + 1})"></i>`;
 
   /* ---------- 言語 (在庫ダッシュボードと同じ localStorage "lang") ---------- */
   const DICT = {
@@ -28,6 +31,7 @@
       "all.locs": "すべての場所",
       reset: "条件をリセット",
       "loc.online": "オンライン・その他 (LINE 等)",
+      "loc.onlineShort": "オンライン",
       "kpi.qty": "販売数量（足）",
       "m.title": "モデル別の販売数量",
       "m.hint": "モデル名をクリックすると、カラー × サイズの内訳を表示",
@@ -69,6 +73,7 @@
       "all.locs": "All locations",
       reset: "Reset filters",
       "loc.online": "Online / other (LINE etc.)",
+      "loc.onlineShort": "Online",
       "kpi.qty": "Pairs sold",
       "m.title": "Pairs sold by model",
       "m.hint": "Click a model to see its pairs by colour and size",
@@ -110,6 +115,7 @@
       "all.locs": "ทุกจุดขาย",
       reset: "ล้างตัวกรอง",
       "loc.online": "ออนไลน์ / อื่นๆ (LINE ฯลฯ)",
+      "loc.onlineShort": "ออนไลน์",
       "kpi.qty": "จำนวนที่ขาย (คู่)",
       "m.title": "จำนวนที่ขายตามรุ่น",
       "m.hint": "คลิกที่รุ่นเพื่อดูจำนวนตามสีและไซซ์",
@@ -183,6 +189,7 @@
 
   const locName = (l) => (l.type === "online" && !l.name ? t("loc.online") : l.name);
   const locLabelHtml = (l) => `<span class="co">${l.company}</span>${esc(locName(l))}`;
+  const shortLoc = (l) => (l.type === "online" && !l.name ? t("loc.onlineShort") : l.name.replace("Terminal21 Asok", "Terminal21").replace("K Village PopUp", "PopUp"));
   const locLabelText = (l) => `${l.company} ${locName(l)}`;
   const sizeKey = (s) => { const m = /^([A-Z]+)(\d+(?:\.\d+)?)$/.exec(s); return m ? [m[1], +m[2]] : [s, 0]; };
   const bySize = (a, b) => { const x = sizeKey(a), y = sizeKey(b); return x[0] < y[0] ? 1 : x[0] > y[0] ? -1 : x[1] - y[1]; }; // W → M の順
@@ -240,7 +247,7 @@
     $("locChips").innerHTML =
       `<button type="button" class="loc-chip all" data-id="" aria-pressed="${!anySel}">${esc(t("all.locs"))}</button>` +
       av.map((l) => `<button type="button" class="loc-chip" data-id="${esc(l.id)}" aria-pressed="${state.locs.has(l.id)}">` +
-        `<i class="sw" data-co="${l.company}" title="${l.company}"></i>${esc(locName(l))}<span class="n">${fmt(qty[l.id] || 0)}</span></button>`).join("");
+        `${sw(l.id)}${esc(locName(l))}<span class="n">${fmt(qty[l.id] || 0)}</span></button>`).join("");
   }
 
   /* ---------- モデル別の販売数量 (このダッシュボードの主役) ---------- */
@@ -248,27 +255,28 @@
     const m = new Map();
     rows.forEach((r) => {
       let g = m.get(r.model);
-      if (!g) m.set(r.model, (g = { model: r.model, qty: 0, BFT: 0, EDV: 0 }));
-      g.qty += r.qty; g[r.co] += r.qty;
+      if (!g) m.set(r.model, (g = { model: r.model, qty: 0, by: {} }));
+      g.qty += r.qty; g.by[r.loc] = (g.by[r.loc] || 0) + r.qty;
     });
     const list = [...m.values()].sort((a, b) => b.qty - a.qty || a.model.localeCompare(b.model));
     const total = list.reduce((s, g) => s + g.qty, 0);
-    // 会社で絞っているときは BFT / EDV の内訳列を出さない
-    const cos = state.company ? [] : COS;
-    $("modelList").className = `mlist cols-${cos.length}`;
+    // 販売のある販売場所ごとに色分けし、足数の列を出す (1 か所だけなら列は出さない)
+    const locs = data.locations.filter((l) => rows.some((r) => r.loc === l.id));
+    const cols = locs.length > 1 ? locs : [];
+    $("modelList").style.setProperty("--co-cols", cols.length);
     if (!list.length) { $("modelList").innerHTML = `<p class="empty-note">${esc(t("empty"))}</p>`; return; }
     const max = list[0].qty;
     const head = `<div class="mrow mhead" aria-hidden="true"><span></span><span>${esc(t("t.model"))}</span><span></span>` +
-      cos.map((c) => `<span class="mnum"><i class="sw" data-co="${c}"></i>${c}</span>`).join("") +
+      cols.map((l) => `<span class="mnum co-h" title="${esc(locName(l))}">${sw(l.id)}${esc(shortLoc(l))}</span>`).join("") +
       `<span class="mnum">${esc(t("m.pairs"))}</span><span class="mnum mshare">${esc(t("m.share"))}</span></div>`;
     $("modelList").innerHTML = head + list.map((g, i) => {
-      const segs = (cos.length ? COS : [state.company]).filter((c) => g[c] > 0)
-        .map((c) => `<span class="mfill" data-co="${c}" style="width:${(g[c] / max) * 100}%"></span>`).join("");
+      const segs = locs.filter((l) => g.by[l.id] > 0)
+        .map((l) => `<span class="mfill" style="width:${(g.by[l.id] / max) * 100}%;background:var(--s${SLOT[l.id] + 1})" title="${esc(locName(l))}: ${g.by[l.id]}"></span>`).join("");
       const open = openModels.has(g.model);
       return `<button type="button" class="mrow${open ? " open" : ""}${state.model === g.model ? " active" : ""}" data-model="${esc(g.model)}" aria-expanded="${open}">` +
         `<span class="mrank">${i + 1}</span><span class="mname"><span class="mchev" aria-hidden="true"></span>${esc(g.model)}</span>` +
         `<span class="mbar">${segs}</span>` +
-        cos.map((c) => `<span class="mnum co-n">${g[c] ? fmt(g[c]) : "-"}</span>`).join("") +
+        cols.map((l) => `<span class="mnum co-n">${g.by[l.id] ? fmt(g.by[l.id]) : "-"}</span>`).join("") +
         `<span class="mnum mqty">${fmt(g.qty)}</span><span class="mnum mshare">${Math.round((g.qty / total) * 100)}%</span></button>` +
         (open ? modelDetail(rows.filter((r) => r.model === g.model)) : "");
     }).join("");
@@ -316,7 +324,7 @@
     const models = new Set(base.map((r) => r.model)).size;
     $("kQty").textContent = fmt(qty);
     $("kQtyNote").innerHTML = (state.company ? [state.company] : COS)
-      .map((c) => `<span class="co-split"><i class="sw" data-co="${c}"></i>${c} ${fmt(base.reduce((s, r) => s + (r.co === c ? r.qty : 0), 0))}</span>`).join("") +
+      .map((c) => `<span class="co-split">${c} ${fmt(base.reduce((s, r) => s + (r.co === c ? r.qty : 0), 0))}</span>`).join("") +
       `<span class="co-split">${esc(t("m.models", { n: models }))}</span><span class="co-split">${esc(t("m.amount", { a: fmt(amt) }))}</span>`;
     renderModels(base);
 
@@ -360,7 +368,7 @@
 
     $("tCount").textContent = t("t.items", { n: items.length });
     $("tHead").innerHTML = `<tr>${cols.map((c) => `<th class="${c.num ? "num" : ""}" data-key="${esc(c.key)}"${sort.key === c.key ? ` aria-sort="${sort.dir > 0 ? "ascending" : "descending"}"` : ""}>` +
-      `${c.loc ? `<i class="sw" data-co="${c.loc.company}"></i>` : ""}${esc(c.label)}</th>`).join("")}</tr>`;
+      `${c.loc ? sw(c.loc.id) : ""}${esc(c.label)}</th>`).join("")}</tr>`;
     $("tBody").innerHTML = items.length
       ? items.map((it) => `<tr>${cols.map((c) => {
         const v = val(it, c.key);
@@ -411,6 +419,7 @@
     .then((d) => {
       data = d;
       LOC = Object.fromEntries(d.locations.map((l) => [l.id, l]));
+      SLOT = Object.fromEntries(d.locations.map((l, i) => [l.id, i % 6]));
       const ix = Object.fromEntries(d.fields.map((f, i) => [f, i]));
       lines = d.lines.map((x) => {
         const l = LOC[x[ix.loc]];
