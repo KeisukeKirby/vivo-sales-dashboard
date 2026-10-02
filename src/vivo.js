@@ -49,6 +49,7 @@
       pairs: "{n} 足",
       period: "期間: {f} 〜 {t}",
       src: "元データ: BFT {b} / EDV {e}",
+      "src.manual": " + 手入力 {n} 件（レシート等）",
       foot: "受注明細の Category が Vivo で、支払い状態が Paid の行を集計（Pending でも Paid なら含む。取消 Voided は除外）。販売場所は EDV の Kvillage = K Village、EDV の Event 1 = K Village PopUp、BFT の Event 1 = Terminal21 Asok、倉庫が空欄の注文（LINE 等）= オンライン・その他。モデル・カラー・サイズは商品名から判定しています。データ作成: {d}",
     },
     en: {
@@ -90,6 +91,7 @@
       pairs: "{n} pairs",
       period: "Period: {f} – {t}",
       src: "Source: BFT {b} / EDV {e}",
+      "src.manual": " + {n} manual entry file(s) (receipts etc.)",
       foot: "Order-detail lines with Category = Vivo and payment status Paid (pending orders count once paid; voided orders excluded). Locations: EDV Kvillage = K Village, EDV Event 1 = K Village PopUp, BFT Event 1 = Terminal21 Asok, orders with no branch (LINE etc.) = Online / other. Model, colour and size are read from the product name. Generated: {d}",
     },
     th: {
@@ -131,6 +133,7 @@
       pairs: "{n} คู่",
       period: "ช่วงเวลา: {f} – {t}",
       src: "ข้อมูล: BFT {b} / EDV {e}",
+      "src.manual": " + ข้อมูลกรอกเอง {n} ไฟล์ (ใบเสร็จ ฯลฯ)",
       foot: "รวมรายการที่ Category = Vivo และสถานะการชำระเงินเป็น Paid จากรายละเอียดคำสั่งซื้อ (Pending ที่ชำระแล้วนับรวม ไม่รวมรายการที่ยกเลิก Voided) จุดขาย: EDV Kvillage = K Village, EDV Event 1 = K Village PopUp, BFT Event 1 = Terminal21 Asok, คำสั่งซื้อที่ไม่มีสาขา (LINE ฯลฯ) = ออนไลน์ / อื่นๆ รุ่น สี และไซซ์อ่านจากชื่อสินค้า สร้างข้อมูล: {d}",
     },
   };
@@ -328,7 +331,8 @@
     $("tTitleModel").textContent = state.model ? `: ${state.model}` : "";
 
     $("period").textContent = t("period", { f: fmtDate(data.from, true), t: fmtDate(data.to, true) });
-    $("source").textContent = t("src", { b: data.sources.BFT, e: data.sources.EDV });
+    $("source").textContent = t("src", { b: data.sources.BFT, e: data.sources.EDV }) +
+      ((data.sources.manual || []).length ? t("src.manual", { n: data.sources.manual.length }) : "");
     $("foot").textContent = t("foot", { d: data.generated.replace("T", " ").slice(0, 16) });
   }
 

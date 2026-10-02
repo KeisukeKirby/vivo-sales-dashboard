@@ -26,11 +26,22 @@ vercel.json            # Output Directory: site
 
    ```bash
    pip install openpyxl
-   python scripts/vivo_sales.py data/sales_raw/vivo_BFT.xlsx data/sales_raw/vivo_EDV.xlsx   # 引数は BFT, EDV の順
+   python scripts/vivo_sales.py data/sales_raw/vivo_BFT.xlsx data/sales_raw/vivo_EDV.xlsx data/manual/*.csv   # BFT, EDV, 手入力 CSV の順
    python scripts/build.py
    ```
 
 3. `git add . && git commit -m "Vivo 販売データ更新" && git push` — Vercel が自動で再デプロイします
+
+### 受注明細がまだない日の実績（レシートなど）
+
+`data/manual/` に CSV で入れておくと実績に加わります（例: `data/manual/BFT_2026-10-01_Event1.csv` = 10/1 の Terminal21 Asok のレシート）。
+
+```
+date,company,warehouse,product_name,qty,amount
+2026-10-01,BFT,Event 1,"Vivo Gobi III Sneaker Leather(M44, Limestone)",1,5391
+```
+
+同じ会社・日付の明細が受注明細の Excel に入ったら、CSV の行は自動的に使われなくなります（二重に数えない）。
 
 ## 集計ルール
 
